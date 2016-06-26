@@ -27,7 +27,7 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame
 	private JMenuItem jMenuPrendasItemAlta;
 	private JMenuItem jMenuPrendasItemBaja;
 	private JMenuItem jMenuPrendasItemModificacion;
-	private JMenu jMenuListados;
+	private JMenu jMenuListadoOC;
 	private JMenuItem jMenuListadosItemListarPrendas;	
 	private JMenuItem jMenuListadosItemListarOCs;
 	private JMenu jMenuChequearPtoRep;
@@ -106,12 +106,8 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame
 					jMenuVenderPrendas.setText("Venta Prenda");
 					jMenuVenderPrendas.addMenuListener(new MenuListener() {
 							public void menuSelected(MenuEvent evt) {
-								VentanaVentaPrenda ventana = new VentanaVentaPrenda(sistemaIndumentaria);
-								ventana.setTitle("Venta de Prendas");
-								ventana.setSize(500, 500);
-								ventana.setMaximumSize(new Dimension(500, 500));
-								ventana.setMinimumSize(new Dimension(500, 500));
-								ventana.setVisible(true);
+								VentanaAltaPrenda vtnAltaprenda = new VentanaAltaPrenda(sistemaIndumentaria);
+								vtnAltaprenda.setVisible(true);	
 							}
 							public void menuDeselected(MenuEvent evt) {
 								
@@ -124,38 +120,20 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame
 					
 					{//Menu - Listados
 
-						jMenuListados = new JMenu();
-						jBarradeMenues.add(jMenuListados);
-						jMenuListados.setText("Listados");
-						jMenuListados.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent evt) 
-							{
+						jMenuListadoOC= new JMenu();
+						jBarradeMenues.add(jMenuListadoOC);
+						jMenuListadoOC.setText("Listado OC");
+						jMenuListadoOC.addMenuListener(new MenuListener() {
+							public void menuSelected(MenuEvent evt) {
+								//Listado OC
+							}
+							public void menuDeselected(MenuEvent evt) {
+								
+							}
+							public void menuCanceled(MenuEvent evt) {
 								
 							}
 						});
-						{
-							jMenuListadosItemListarPrendas = new JMenuItem();
-							jMenuListados.add(jMenuListadosItemListarPrendas);
-							jMenuListadosItemListarPrendas.setText("Prendas");
-							jMenuListadosItemListarPrendas.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) 
-								{
-//									Listar Prendas
-									
-								}
-							});
-						}
-						{
-							jMenuListadosItemListarOCs = new JMenuItem();
-							jMenuListados.add(jMenuListadosItemListarOCs);
-							jMenuListadosItemListarOCs.setText("Ordenes de Compra");
-							jMenuListadosItemListarOCs.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) 
-								{
-//									Listar O.C
-								}
-							});
-						}	
 						
 					}//FIN Menu - Listados					
 					
