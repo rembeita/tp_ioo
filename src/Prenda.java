@@ -9,17 +9,18 @@ public class Prenda
 	protected Vector<ItemPrenda>itemsprendas;
 	
 
-	public Prenda(int codigoPrenda, String nombrePrenda, int stockPrenda, 
-			Material material, int cantMaterial) {
+//	public Prenda(int codigoPrenda, String nombrePrenda, int stockPrenda, 
+//			Material material, int cantMaterial) {
+		public Prenda(int codigoPrenda, String nombrePrenda, int stockPrenda) {	
 		super();
 		
 		itemsprendas = new Vector<ItemPrenda>();
-		ItemPrenda itemprenda = new ItemPrenda(cantMaterial, material);
+//		ItemPrenda itemprenda = new ItemPrenda(cantMaterial, material);
 
 		this.codigoPrenda = codigoPrenda;
 		this.nombrePrenda = nombrePrenda;
 		this.stockPrenda = stockPrenda;
-		itemsprendas.add(itemprenda);
+//		itemsprendas.add(itemprenda);
 		
 	}
 	

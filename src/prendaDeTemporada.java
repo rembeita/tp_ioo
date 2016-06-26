@@ -4,9 +4,8 @@ public class prendaDeTemporada extends Prenda
 	private String estacion;
 	private float porcentajeIncremento;
 		
-	public prendaDeTemporada(int codigoPrenda, String nombrePrenda, int stockPrenda, Material material,
-			int cantMaterial, String estacion) {
-		super(codigoPrenda, nombrePrenda, stockPrenda, material, cantMaterial);
+	public prendaDeTemporada(int codigoPrenda, String nombrePrenda, int stockPrenda, String epoca) {
+		super(codigoPrenda, nombrePrenda, stockPrenda);
 		this.estacion = estacion;
 		if (estacion == "verano")
 		{

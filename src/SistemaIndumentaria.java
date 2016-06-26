@@ -32,14 +32,14 @@ public class SistemaIndumentaria
 		materiales.add(material6);
 		materiales.add(material7);
 		
-		Prenda prenda_sin_temporada3 = this.AltaPrendaSinTemporada(20, "pantalon1", 10, material1, 65);
+//		Prenda prenda_sin_temporada3 = this.AltaPrendaSinTemporada(20, "pantalon1", 10, material1, 65);
 	
-		prenda_sin_temporada3.setPrecioPrenda(200);
+//		prenda_sin_temporada3.setPrecioPrenda(200);
 	//	prendas.add(prenda_sin_temporada3); el metodo altaprendasintemporada ya realiza un add
 		
 		
 		
-		Prenda prenda_sin_temporada2 = this.AltaPrendaSinTemporada(10, "pantalon2", 10, material2, 75);
+//		Prenda prenda_sin_temporada2 = this.AltaPrendaSinTemporada(10, "pantalon2", 10, material2, 75);
 //		prenda_sin_temporada2.setPrecioPrenda(400);
 
 	//	prendas.add(prenda_sin_temporada2); el metodo altaprendasintemporada ya realiza un add
@@ -77,37 +77,45 @@ public class SistemaIndumentaria
 //		return devolucionPrenda;
 //	}
 //	
-	public Prenda AltaPrendaSinTemporada(int codigo, String nombrePrenda, int stock, Material material, int cantMaterial)
+	public void AltaPrendaSinTemporada(int codigo, String nombrePrenda, int stock)
 	{
-		Prenda devolucionPrenda;
-		
-		PrendaSinTemporada prenda_sin_temporada = new PrendaSinTemporada(codigo, nombrePrenda, stock, material, cantMaterial);
-//		prenda_sin_temporada.calcularPrecio();	
-//		prendas.add(prenda_sin_temporada);
-//		material.imprimirCantStock();
-		devolucionPrenda = prenda_sin_temporada;
-		return devolucionPrenda;
-		
+	
+		Prenda prendaTemporal = new PrendaSinTemporada(codigo, nombrePrenda, stock);
+
 	}
 	
 	
-	public Prenda AltaPrendaDeTemporada(int codigo, String nombrePrenda, int stock, Material material, int cantMaterial, String epoca)
+//	public Prenda AltaPrendaDeTemporada(int codigo, String nombrePrenda, int stock, Material material, int cantMaterial, String epoca)
+//	{
+//		Prenda devolucionPrenda;
+//		if (material.reducirStock(cantMaterial))
+//		{
+//			prendaDeTemporada prenda_de_temporada = new prendaDeTemporada(codigo, nombrePrenda, stock, material, cantMaterial, epoca);
+//			prenda_de_temporada.calcularPrecio();
+//			devolucionPrenda = prenda_de_temporada;
+//			prendas.add(prenda_de_temporada);
+//			material.imprimirCantStock();
+//		}
+//		else
+//		{
+//			return null;
+//		}
+//		return devolucionPrenda;
+//	}
+	public void AltaPrendaDeTemporada(int codigo, String nombrePrenda, int stock, String epoca)
 	{
 		Prenda devolucionPrenda;
-		if (material.reducirStock(cantMaterial))
-		{
-			prendaDeTemporada prenda_de_temporada = new prendaDeTemporada(codigo, nombrePrenda, stock, material, cantMaterial, epoca);
+		
+
+			prendaDeTemporada prenda_de_temporada = new prendaDeTemporada(codigo, nombrePrenda, stock, epoca);
 			prenda_de_temporada.calcularPrecio();
 			devolucionPrenda = prenda_de_temporada;
 			prendas.add(prenda_de_temporada);
-			material.imprimirCantStock();
-		}
-		else
-		{
-			return null;
-		}
-		return devolucionPrenda;
+//			material.imprimirCantStock();
+
+
 	}
+	
 	
 	public void ControlarStockMateriales()
 	{
