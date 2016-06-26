@@ -38,6 +38,7 @@ public class VentanaAltaPrenda extends JFrame {
 	private JLabel lblError;
 	
 	private JButton btnAceptar;
+	private JButton btnSeguir;
 	private JButton btnCancelar;
 	private JButton btnAgregar;
 		
@@ -89,7 +90,7 @@ public class VentanaAltaPrenda extends JFrame {
 			{ 
 				lblCodigo = new JLabel();
 				getContentPane().add(lblCodigo);
-				lblCodigo.setText("Código: ");
+				lblCodigo.setText("CÃ³digo: ");
 				lblCodigo.setBounds(10,30, 80, 20);
 			}						
 			{
@@ -157,6 +158,24 @@ public class VentanaAltaPrenda extends JFrame {
 				
 			}
 			
+			{
+				btnSeguir = new JButton();
+				getContentPane().add(btnSeguir);
+				btnSeguir.setText("Seguir");
+				btnSeguir.setBounds(150, 100, 80, 23);
+				btnSeguir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						// Add prenda actual
+						if(cmbTemporada.getSelectedItem() == "Sin Temporada"){
+							if(sistemaIndumentaria.AltaPrendaSinTemporada((int)txtCodigo.getValue(), 
+									txtNombre.getText(), (int)txtStock.getValue())){
+								// Se pudo generar la prenda temporaria, mostrar carga de materiales
+							}
+						}
+					}
+				});
+			}
+			
 			{	//btnAgregar
 				btnAgregar  = new JButton();
 				getContentPane().add(btnAgregar);
@@ -171,10 +190,14 @@ public class VentanaAltaPrenda extends JFrame {
 						int cantMaterial = (int)txtCantMat.getValue();
 						boolean bExiste = false;
 						
+						// Chequear este metodo, debe ser similar al agregar item factura
+						sistemaIndumentaria.generarItemPrenda(codMaterial, cantMaterial);
+						
+						/*
 						validaDatos();
 						
 						//Si tengo todos los datos cargados, busco si existe la prenda
-						if(!bError){
+						//if(!bError){
 							
 							int i;							
 							codPrenda = (int)txtCodigo.getValue();						
@@ -200,8 +223,8 @@ public class VentanaAltaPrenda extends JFrame {
 								
 								lblError.setText("Error: La prenda ya existe");
 							} //else if(sistemaIndumentaria.buscarPrenda(codPrenda)== null){
-						} //if(!bError)
-
+						//} //if(!bError)
+						*/
 					}
 				});				
 			}
@@ -231,11 +254,8 @@ public class VentanaAltaPrenda extends JFrame {
 				btnAceptar.setText("Aceptar");
 				btnAceptar.setBounds(70, 350, 100, 30);
 				btnAceptar.addActionListener(new ActionListener() {
-					
-					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						
+						sistemaIndumentaria.finalizarAltaPrenda();
 					}
 				});
 			}	
@@ -247,10 +267,7 @@ public class VentanaAltaPrenda extends JFrame {
 				btnCancelar.setText("Cancelar");
 				btnCancelar.setBounds(250, 350, 100, 30);
 				btnCancelar.addActionListener(new ActionListener() {
-					
-					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
 						dispose();
 					}
 				});				
@@ -271,7 +288,7 @@ public class VentanaAltaPrenda extends JFrame {
 		cmbTemporada.setBounds(260, 29, 120, 20);
 		cmbTemporada.addItem("Sin Temporada");
 		cmbTemporada.addItem("Verano");
-		cmbTemporada.addItem("Otoño");
+		cmbTemporada.addItem("OtoÃ±o");
 		cmbTemporada.addItem("Invierno");
 		cmbTemporada.addItem("Primavera");
 	} //private void cargaComboTemporadas()
@@ -316,7 +333,7 @@ public class VentanaAltaPrenda extends JFrame {
 //		
 	}	
 	
-	private void generarItemPrenda(){
+	/*private void generarItemPrenda(){
 		// TODO Check if matSeleccionado != null		
 		if(txtCantMat.getValue() != null || (int)txtCantMat.getValue() == 0){
 			int cantMaterial = (int)txtCantMat.getValue();
@@ -333,15 +350,15 @@ public class VentanaAltaPrenda extends JFrame {
 //			}
 		}else{
 			
-			lblError.setText("Error: Debe ingresar una cantidad válida de materiales");
+			lblError.setText("Error: Debe ingresar una cantidad vï¿½lida de materiales");
 		} //if(txtCantMat.getValue() != null){
 		
-	}
+	}*/
 	
 	private void validaDatos() {
 		// TODO Auto-generated method stub
 		if(txtCodigo.getValue() == null){
-			lblError.setText("Debe ingresar un código de Prenda válido");
+			lblError.setText("Debe ingresar un cï¿½digo de Prenda vï¿½lido");
 			bError = true;
 		}else{
 			if (bError == true)
@@ -349,7 +366,7 @@ public class VentanaAltaPrenda extends JFrame {
 		}
 		
 		if(txtNombre.getText() == null){
-			lblError.setText("Debe ingresar un nombre de Prenda válido");
+			lblError.setText("Debe ingresar un nombre de Prenda vï¿½lido");
 			bError = true;
 		}else{			
 			if (bError == true)
@@ -357,7 +374,7 @@ public class VentanaAltaPrenda extends JFrame {
 		}
 		
 		if(txtStock.getValue() == null){
-			lblError.setText("Debe ingresar un stock de Prenda válido");
+			lblError.setText("Debe ingresar un stock de Prenda vï¿½lido");
 			bError = true;
 		}else{			
 			if (bError == true)
@@ -411,7 +428,7 @@ public class VentanaAltaPrenda extends JFrame {
 		}
 	}
 	
-	//Formato para que el campo sea sólo numerico
+	//Formato para que el campo sea sï¿½lo numerico
 	private NumberFormatter numberFormater(){
 		NumberFormat format = NumberFormat.getInstance();
 	    NumberFormatter formatter = new NumberFormatter(format);

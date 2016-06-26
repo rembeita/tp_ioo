@@ -8,6 +8,7 @@ public class SistemaIndumentaria
 	private Vector<Material>materialesAPedir;
 	private Vector<ordenDeCompra>ordenesDeCompra;
 	private Vector<Factura>facturas;
+	private Prenda prendaActual;
 	
 	private void cargaInicial()
 	{
@@ -32,7 +33,9 @@ public class SistemaIndumentaria
 		materiales.add(material6);
 		materiales.add(material7);
 		
-//		Prenda prenda_sin_temporada3 = this.AltaPrendaSinTemporada(20, "pantalon1", 10, material1, 65);
+		Prenda prenda_sin_temporada3 = new PrendaSinTemporada(1, "CACA", 20);
+		prenda_sin_temporada3.agregarItemPrenda(10, material1);
+		prendas.add(prenda_sin_temporada3);
 	
 //		prenda_sin_temporada3.setPrecioPrenda(200);
 	//	prendas.add(prenda_sin_temporada3); el metodo altaprendasintemporada ya realiza un add
@@ -77,11 +80,13 @@ public class SistemaIndumentaria
 //		return devolucionPrenda;
 //	}
 //	
-	public void AltaPrendaSinTemporada(int codigo, String nombrePrenda, int stock)
-	{
-	
-		Prenda prendaTemporal = new PrendaSinTemporada(codigo, nombrePrenda, stock);
-
+	public boolean AltaPrendaSinTemporada(int codigo, String nombrePrenda, int stock){
+		if(this.buscarPrenda(codigo) != null){
+			prendaActual = new PrendaSinTemporada(codigo, nombrePrenda, stock);
+			return true;
+		}
+		System.out.println(prendaActual);
+		return false;
 	}
 	
 	
@@ -281,11 +286,16 @@ public class SistemaIndumentaria
 	}
 	
 	//Nuevo 25/06 claguirre
-	public void generarItemPrenda(int codigoPrenda, int codigoMaterial, int cantMaterial){
+	/*public void generarItemPrenda(int codigoPrenda, int codigoMaterial, int cantMaterial){
 		
 		Prenda prenda = buscarPrenda(codigoPrenda);
 		Material material = buscarMaterial(codigoMaterial);
 		prenda.agregarItemPrenda(cantMaterial, material);;
+	}*/
+	
+	public void generarItemPrenda(int codigoMaterial, int cantMaterial){
+		Material material = buscarMaterial(codigoMaterial);
+		prendaActual.agregarItemPrenda(cantMaterial, material);
 	}
 	
 	public boolean bajaPrenda(int codigo)
@@ -301,6 +311,13 @@ public class SistemaIndumentaria
 	
 	public void modificarPrenda(){
 		
+	}
+
+	public void finalizarAltaPrenda() {
+		// Actualizar stock de materiales utilizados por esta prenda
+		prendas.add(prendaActual);
+		prendaActual = null;
+		System.out.println(prendas);
 	}
 	
 }
