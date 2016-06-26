@@ -279,6 +279,41 @@ public class SistemaIndumentaria
 		}
 	}
 	
+	public Vector<Vector> getOC() 
+	{
+		
+		 Vector<Vector> filas = new Vector<Vector>();
+		 Vector<String> titulo = new Vector<String>();
+		 String codigot = "Codigo:";
+		 String fechat = "Fecha:";
+		 String totalt = "Total:";
+		 String proveedort = "Proveedor:";
+		titulo.add(codigot);
+		titulo.add(fechat);
+		titulo.add(totalt);
+		titulo.add(proveedort);
+		filas.add(titulo);
+		 for (int i = 0; i < ordenesDeCompra.size(); i++) {
+				ordenDeCompra ordenDecompra = ordenesDeCompra.elementAt(i);
+				int codigo = ordenDecompra.getCodigoOC();
+				String fecha = ordenDecompra.getFechaOC();
+				float total = ordenDecompra.getTotalOC();
+				String proveedor = ordenDecompra.getNombreProveedor();
+				Vector<String> aux = new Vector<String>();
+				aux.add(Integer.toString(codigo));
+				aux.add(fecha);
+				aux.add(Float.toString(total));
+				aux.add(proveedor);
+				filas.add(aux);
+		
+				
+			}
+	
+		
+	
+		return filas;
+	}
+	
 	public void agregarPrenda(int codfac, int codPrenda, int cantidad) {
 		Factura fac = buscarFactura(codfac);
 		Prenda prenda = buscarPrenda(codPrenda);

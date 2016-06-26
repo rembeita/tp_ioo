@@ -9,6 +9,7 @@ import javax.swing.JMenuItem;
 import javax.swing.WindowConstants;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -125,7 +126,8 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame
 						jMenuListadoOC.setText("Listado OC");
 						jMenuListadoOC.addMenuListener(new MenuListener() {
 							public void menuSelected(MenuEvent evt) {
-								//Listado OC
+								VentanaOC ventanaoc = new VentanaOC();
+								ventanaoc.setVisible(true);
 							}
 							public void menuDeselected(MenuEvent evt) {
 								

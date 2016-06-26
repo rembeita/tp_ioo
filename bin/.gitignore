@@ -11,6 +11,7 @@
 /VentanaAltaPrenda$3.class
 /VentanaAltaPrenda$4.class
 /VentanaAltaPrenda$5.class
+/VentanaAltaPrenda$6.class
 /VentanaAltaPrenda.class
 /VentanaMenuPrincipal$1.class
 /VentanaMenuPrincipal$2.class
@@ -19,8 +20,6 @@
 /VentanaMenuPrincipal$5.class
 /VentanaMenuPrincipal$6.class
 /VentanaMenuPrincipal$7.class
-/VentanaMenuPrincipal$8.class
-/VentanaMenuPrincipal$9.class
 /VentanaMenuPrincipal.class
 /VentanaVentaPrenda$1.class
 /VentanaVentaPrenda$2.class
@@ -33,4 +32,4 @@
 /itemOC.class
 /ordenDeCompra.class
 /prendaDeTemporada.class
-/VentanaAltaPrenda$6.class
+/VentanaOC.class
