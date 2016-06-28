@@ -95,7 +95,8 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame
 							jMenuPrendasItemModificacion.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent evt) 
 								{
-//									Modificar Prenda;
+									VentanaModificacionPrenda vtnModificacionprenda = new VentanaModificacionPrenda(sistemaIndumentaria);
+									vtnModificacionprenda.setVisible(true);
 								}
 							});
 						}

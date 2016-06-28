@@ -36,6 +36,11 @@ public class SistemaIndumentaria
 		Prenda prenda_sin_temporada3 = new PrendaSinTemporada(1, "CACA", 20);
 		prenda_sin_temporada3.agregarItemPrenda(10, material1);
 		prendas.add(prenda_sin_temporada3);
+		
+		Prenda prenda_sin_temporada4 = new PrendaSinTemporada(3, "ROD", 20);
+		prenda_sin_temporada4.agregarItemPrenda(20, material1);
+		prendas.add(prenda_sin_temporada4);
+		
 	
 //		prenda_sin_temporada3.setPrecioPrenda(200);
 	//	prendas.add(prenda_sin_temporada3); el metodo altaprendasintemporada ya realiza un add
@@ -210,14 +215,16 @@ public class SistemaIndumentaria
 	
 	public Prenda buscarPrenda(int cod)
 	{
-		System.out.println("Buscando prenda!");
-
-		for (int i=0; i<prendas.size();i++)
+	
+		for (int j=0; j < prendas.size(); j++)
 		{
-			if (prendas.elementAt(i).sosPrenda(cod))
-				return prendas.elementAt(i);
+			if (prendas.elementAt(j).sosPrenda(cod) == true)
+			{
+			
+				return prendas.elementAt(j);
+			}
 		}
-
+	
 		return null;
 	}
 	
