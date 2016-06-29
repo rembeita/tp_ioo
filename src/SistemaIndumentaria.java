@@ -62,8 +62,7 @@ public class SistemaIndumentaria
 			return true;
 		}
 		return false;
-	}
-	
+	}	
 	
 	public void ControlarStockMateriales()
 	{
@@ -201,13 +200,7 @@ public class SistemaIndumentaria
 			}
 		}
 		return idsprendas;
-	}
-	
-	//Nuevo CAGUIRRE
-	public Vector<Material> getMateriales() {
-		return materiales;
 	}	
-	
 	
 	public void setPrendas(Vector<Prenda> prendas) {
 		this.prendas = prendas;
@@ -244,7 +237,7 @@ public class SistemaIndumentaria
 		}
 	}
 	
-	public Vector<Vector> getOC() 
+	public Vector<Vector> getOrdenesDeCompra() 
 	{
 		 Vector<Vector> filas = new Vector<Vector>();
 		 Vector<String> titulo = new Vector<String>();
@@ -279,15 +272,7 @@ public class SistemaIndumentaria
 		Prenda prenda = buscarPrenda(codPrenda);
 		fac.incorporarItemFactura(cantidad, prenda);
 	}
-	
-	//Nuevo 25/06 claguirre
-	/*public void generarItemPrenda(int codigoPrenda, int codigoMaterial, int cantMaterial){
 		
-		Prenda prenda = buscarPrenda(codigoPrenda);
-		Material material = buscarMaterial(codigoMaterial);
-		prenda.agregarItemPrenda(cantMaterial, material);;
-	}*/
-	
 	public void generarItemPrenda(int codigoMaterial, int cantMaterial){
 		Material material = buscarMaterial(codigoMaterial);
 		prendaActual.agregarItemPrenda(cantMaterial, material);

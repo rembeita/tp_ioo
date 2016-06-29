@@ -41,7 +41,7 @@ public class VentanaOC extends JFrame
 				getContentPane().setLayout(null);
 				{
 					setTitle("Listado de Ordenes de compra");
-					Vector datos = sis.getOC();
+					Vector datos = sis.getOrdenesDeCompra();
 					Vector columnas = new Vector();
 					columnas.add("Codigo");
 					columnas.add("Fecha");
