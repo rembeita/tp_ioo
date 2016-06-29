@@ -200,7 +200,7 @@ public class VentanaAltaPrenda extends JFrame {
 				btnSalir = new JButton();
 				getContentPane().add(btnSalir);
 				btnSalir.setText("Salir");
-				btnSalir.setBounds(260, 100, 80, 23);
+				btnSalir.setBounds(261, 100, 80, 23);
 				btnSalir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
@@ -259,9 +259,17 @@ public class VentanaAltaPrenda extends JFrame {
 				btnAceptar.setBounds(70, 350, 100, 30);
 				btnAceptar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						sistemaIndumentaria.finalizarAltaPrenda();
-						lblError.setText("Prenda generada exitosamente !!");
-						muestraOcultaAgregaMaterial(false);
+						
+						if(materialesAgregados.length>0){
+							sistemaIndumentaria.finalizarAltaPrenda();
+							lblError.setText("Prenda generada exitosamente !!");
+							muestraOcultaAgregaMaterial(false);
+							
+						}else{
+							
+							lblError.setText("Error: Debe cargar al menos un material para realizar esta operacion");
+						}
+												
 					}
 				});
 			}	
@@ -413,10 +421,15 @@ public class VentanaAltaPrenda extends JFrame {
 		tblContTablaMateriales.setVisible(bMuestra);
 		tblTablaMateriales.setVisible(bMuestra);
 		
-		txtCodigo.setValue(0);
-		txtNombre.setText("");
-		txtStock.setValue(0);
-		txtCantMat.setValue(0);
+		if(!bMuestra){
+			
+			txtCodigo.setValue(0);
+			txtNombre.setText("");
+			txtStock.setValue(0);
+			txtCantMat.setValue(0);				
+		} //if(!bMuestra)
+		
+
 		btnSeguir.setVisible(!bMuestra);
 		btnSalir.setVisible(!bMuestra);
 		txtCodigo.setEnabled(!bMuestra);
