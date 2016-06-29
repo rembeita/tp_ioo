@@ -56,7 +56,7 @@ public class VentanaVentaPrenda extends JFrame{
 	private Vector<Integer> prendas;
 	private int codfac;
 	private int codprendaSeleccionada;
-	private Vector<itemFactura> itemsFactura = new Vector<itemFactura>();
+	private int[][] itemsFactura;
 	private Object[] components = {lblSeleccionarItem, lblCantidadItem, txfCantidadField, btnAgregarItem,
 			tblTablaPrendas, lblPrecioTotal, btnImprimirFactura, btnCancelar, lblNumCliente, lblNombreCliente,
 			btnSeguir, lblDatosCliente, txfNumCliente, txfNombreCliente, tableContainer, lblError};
@@ -196,12 +196,11 @@ public class VentanaVentaPrenda extends JFrame{
 	}
 	
 	private void updateTable(){
-		if(itemsFactura.size() > 0){
-			for (int i = 0; i < itemsFactura.size(); i++) {
-				int cantidad = itemsFactura.elementAt(i).getCantidadComprada();
-				Prenda prenda = itemsFactura.elementAt(i).getPrenda();
-				tblTablaPrendas.getModel().setValueAt(prenda.getNombrePrenda(), i, 0);
-				tblTablaPrendas.getModel().setValueAt(cantidad, i, 1);
+		if(itemsFactura.length > 0){
+			for (int i = 0; i < itemsFactura.length; i++) {
+				tblTablaPrendas.getModel().setValueAt(
+						sistemaIndumentaria.buscarTPrenda(itemsFactura[i][0]).get("nombre"), i, 0);
+				tblTablaPrendas.getModel().setValueAt(itemsFactura[i][1], i, 1);
 			}
 		}
 	}
