@@ -38,8 +38,6 @@ public class SistemaIndumentaria
 		
 		itemOC itemOC1 = new itemOC(material1, 3);
 		
-//		ordenDeCompra oc1 = new ordenDeCompra(100, "28/06/2016", 
-		
 	}
 	
 	public SistemaIndumentaria()
@@ -216,30 +214,6 @@ public class SistemaIndumentaria
 			}
 		}
 		return datos;
-	}
-	
-	private Factura getFactura(int numFactura){
-		if(facturas.size() > 0){
-			for (int i = 0; i < facturas.size(); i++) {
-				if(numFactura == facturas.elementAt(i).getNroFactura()){
-					Factura fac = facturas.elementAt(i); 
-					datos.put("nroFactura", String.valueOf(fac.getNroFactura()));
-					datos.put("nombreLocal", fac.getNombreLocal());
-					datos.put("nombreCliente", fac.getNombreCliente());
-					datos.put("numCliente", String.valueOf(fac.getNumCliente()));
-					datos.put("total", String.valueOf(fac.getPrecioTotal()));
-				}
-			}
-		}
-		return datos;
-	}
-	
-	public int[][] getItemfacturas(int codigo){
-		int[][] items = new int[0][2];
-		if(getFactura(codigo) != null){
-			items = getFactura(codigo).getItemfacturas();
-		}
-		return items;
 	}
 	
 	public void eliminarFactura(int numFactura){

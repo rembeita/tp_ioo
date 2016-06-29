@@ -50,12 +50,6 @@ public class Factura
 		this.nombreCliente = nombreCliente;
 	}
 
-
-	public int getNumCliente() {
-		return numCliente;
-	}
-
-
 	public void setNumCliente(int numCliente) {
 		this.numCliente = numCliente;
 	}
