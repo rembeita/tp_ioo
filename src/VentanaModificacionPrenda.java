@@ -239,7 +239,6 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 		precio_prenda.setVisible(false);
 
 		modificar.setVisible(false);
-		//jLabel4.setVisible(true);
 		codigoPrenda.setText("");
 		
 	}

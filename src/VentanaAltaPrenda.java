@@ -88,7 +88,7 @@ public class VentanaAltaPrenda extends JFrame {
 			{ 
 				lblCodigo = new JLabel();
 				getContentPane().add(lblCodigo);
-				lblCodigo.setText("Cï¿½digo: ");
+				lblCodigo.setText("Código: ");
 				lblCodigo.setBounds(10,30, 80, 20);
 			}						
 			{
@@ -145,7 +145,6 @@ public class VentanaAltaPrenda extends JFrame {
 				lblCantMat = new JLabel();
 				getContentPane().add(lblCantMat);
 				lblCantMat.setText("Cantidad:");
-//				lblCantMat.setForeground(Color.red);
 				lblCantMat.setBounds(10, 182, 80, 20);	
 			}
 
@@ -227,7 +226,7 @@ public class VentanaAltaPrenda extends JFrame {
 							materialesAgregados = sistemaIndumentaria.getItemsPrendas();
 							updateTable();					
 						}else{
-							lblError.setText("Error: Debe ingresar una cantidad vï¿½lida de material");
+							lblError.setText("Error: Debe ingresar una cantidad válida de material");
 						}
 					}
 				});				
@@ -302,7 +301,7 @@ public class VentanaAltaPrenda extends JFrame {
 		cmbTemporada.setBounds(260, 29, 120, 20);
 		cmbTemporada.addItem("Sin Temporada");
 		cmbTemporada.addItem("Verano");
-		cmbTemporada.addItem("Otoï¿½o");
+		cmbTemporada.addItem("Otoño");
 		cmbTemporada.addItem("Invierno");
 		cmbTemporada.addItem("Primavera");
 	} //private void cargaComboTemporadas()
@@ -329,19 +328,19 @@ public class VentanaAltaPrenda extends JFrame {
 		
 		if(txtCodigo.getValue() == null || (int)txtCodigo.getValue() == 0){
 			
-			lblError.setText("Debe ingresar un cï¿½digo de Prenda vï¿½lido");
+			lblError.setText("Debe ingresar un código de Prenda válido");
 			bError = true;
 		}		
 		
 		if(txtNombre.getText().length() == 0 && !bError){
 			
-			lblError.setText("Debe ingresar un nombre de Prenda vï¿½lido");
+			lblError.setText("Debe ingresar un nombre de Prenda válido");
 			bError = true;
 		}
 		
 		if(txtStock.getValue() == null && !bError || (int)txtStock.getValue() == 0 && !bError){
 			
-			lblError.setText("Debe ingresar un stock de Prenda vï¿½lido");
+			lblError.setText("Debe ingresar un stock de Prenda válido");
 			bError = true;
 		}
 	}

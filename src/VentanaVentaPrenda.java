@@ -31,7 +31,7 @@ import javax.swing.text.NumberFormatter;
 public class VentanaVentaPrenda extends JFrame{
 
 	private JLabel lblDatosCliente = new JLabel("Datos de Cliente", SwingConstants.CENTER);
-	private JLabel lblNumCliente = new JLabel("N�mero:");
+	private JLabel lblNumCliente = new JLabel("Número:");
 	private JLabel lblNombreCliente = new JLabel("Nombre:");
 	private JLabel lblSeleccionarItem = new JLabel("Seleccionar Prenda:");
 	private JLabel lblError = new JLabel();
@@ -162,9 +162,9 @@ public class VentanaVentaPrenda extends JFrame{
 						if(cantidad <= sistemaIndumentaria.buscarPrenda(codprendaSeleccionada).getStockPrenda()){
 							lblError.setVisible(false);
 							sistemaIndumentaria.agregarPrenda(codfac, codprendaSeleccionada, cantidad);
-							itemsFactura = sistemaIndumentaria.buscarFactura(codfac).getItemfacturas();
+							itemsFactura = sistemaIndumentaria.getItemfacturas(codfac);
 							updateTable();
-							lblPrecioTotal.setText("Total: "+sistemaIndumentaria.buscarFactura(codfac).getPrecioTotal());
+							lblPrecioTotal.setText("Total: "+sistemaIndumentaria.buscarFactura(codfac).get("total"));
 						} else {
 							lblError.setVisible(true);
 						}
@@ -180,7 +180,7 @@ public class VentanaVentaPrenda extends JFrame{
 			btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(codfac != -1){
-						sistemaIndumentaria.eliminarFactura(sistemaIndumentaria.buscarFactura(codfac));
+						sistemaIndumentaria.eliminarFactura(codfac);
 					}
 					dispose();
 				}

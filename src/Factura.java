@@ -14,6 +14,7 @@ public class Factura
 	public int[][] getItemfacturas() {
 		int[][] items = new int[0][2];
 		if(itemfacturas.size() > 0){
+			items = new int[itemfacturas.size()][2];
 			for (int i = 0; i < itemfacturas.size(); i++) {
 				items[i][0] = itemfacturas.elementAt(i).getPrenda().getCodigoPrenda();
 				items[i][1] = itemfacturas.elementAt(i).getCantidadComprada();
@@ -93,6 +94,10 @@ public class Factura
 		}
 		prenda.setStockPrenda(prenda.getStockPrenda()-cantidadComprada);
 		this.setPrecioTotal(this.getPrecioTotal()+(cantidadComprada * prenda.getPrecioPrenda()));
+	}
+
+	public int getNumCliente() {
+		return numCliente;
 	}
 
 }
