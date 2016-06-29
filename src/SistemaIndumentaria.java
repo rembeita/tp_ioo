@@ -34,7 +34,6 @@ public class SistemaIndumentaria
 		materiales.add(material5);
 		materiales.add(material6);
 		materiales.add(material7);
-		
 	}
 	
 	public SistemaIndumentaria()
@@ -314,7 +313,6 @@ public class SistemaIndumentaria
 	}
 
 	public void finalizarAltaPrenda() {
-		// Actualizar stock de materiales utilizados por esta prenda
 		prendas.add(prendaActual);
 		prendaActual = null;
 		System.out.println(prendas);
@@ -333,7 +331,7 @@ public class SistemaIndumentaria
 		
 		if(prendaActual != null){
 			Vector<ItemPrenda> itemsPrenda = prendaActual.getItemsprendas();
-			items = new int[prendaActual.getItemsprendas().size()][2];
+			items = new int[itemsPrenda.size()][2];
 			if(itemsPrenda.size()>0){
 				for (int i = 0; i < itemsPrenda.size(); i++) {
 					items[i][0] = itemsPrenda.elementAt(i).getMaterial().getCodigoMaterial();
@@ -345,8 +343,6 @@ public class SistemaIndumentaria
 	}
 
 	public String getNombreItemPrenda(Integer codigo) {
-		 
 		return this.buscarMaterial(codigo).getNombreMaterial();
-
 	}		
 }

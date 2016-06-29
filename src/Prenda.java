@@ -8,18 +8,14 @@ public class Prenda
 	protected float precioPrenda;
 	protected Vector<ItemPrenda>itemsprendas;	
 
-//	public Prenda(int codigoPrenda, String nombrePrenda, int stockPrenda, 
-//			Material material, int cantMaterial) {
-		public Prenda(int codigoPrenda, String nombrePrenda, int stockPrenda) {	
+	public Prenda(int codigoPrenda, String nombrePrenda, int stockPrenda) {	
 		super();
 		
 		itemsprendas = new Vector<ItemPrenda>();
-//		ItemPrenda itemprenda = new ItemPrenda(cantMaterial, material);
 
 		this.codigoPrenda = codigoPrenda;
 		this.nombrePrenda = nombrePrenda;
 		this.stockPrenda = stockPrenda;
-//		itemsprendas.add(itemprenda);
 		
 	}
 	
@@ -84,8 +80,7 @@ public class Prenda
 	
 	}
 	
-	public void agregarItemPrenda(int cantMaterial, Material material)
-	{	
+	public void agregarItemPrenda(int cantMaterial, Material material){	
 		//Chequeo si existe el itemPrenda y lo actualizo, de lo contrario lo creo y agrego.
 		if(itemsprendas.size()>0){
 			for(int i = 0; i<itemsprendas.size();i++){

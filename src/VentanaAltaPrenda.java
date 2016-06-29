@@ -88,7 +88,7 @@ public class VentanaAltaPrenda extends JFrame {
 			{ 
 				lblCodigo = new JLabel();
 				getContentPane().add(lblCodigo);
-				lblCodigo.setText("Código: ");
+				lblCodigo.setText("Cï¿½digo: ");
 				lblCodigo.setBounds(10,30, 80, 20);
 			}						
 			{
@@ -182,11 +182,12 @@ public class VentanaAltaPrenda extends JFrame {
 								if(sistemaIndumentaria.AltaPrendaDeTemporada((int)txtCodigo.getValue(), 
 										txtNombre.getText(), (int)txtStock.getValue(), (String) cmbTemporada.getSelectedItem())){
 										lblError.setText("");
+										
 										// Se pudo generar la prenda temporaria, mostrar carga de materiales
 										muestraOcultaAgregaMaterial(true);
-									}else{
-										lblError.setText("Error: La prenda ya existe");
-									}
+								}else{
+									lblError.setText("Error: La prenda ya existe");
+								}
 							}
 							materialesAgregados = sistemaIndumentaria.getItemsPrendas();
 							updateTable();
@@ -226,7 +227,7 @@ public class VentanaAltaPrenda extends JFrame {
 							materialesAgregados = sistemaIndumentaria.getItemsPrendas();
 							updateTable();					
 						}else{
-							lblError.setText("Error: Debe ingresar una cantidad válida de material");
+							lblError.setText("Error: Debe ingresar una cantidad vï¿½lida de material");
 						}
 					}
 				});				
@@ -282,7 +283,6 @@ public class VentanaAltaPrenda extends JFrame {
 			pack();
 			setSize(500, 470);			
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}		
 	}
@@ -294,19 +294,16 @@ public class VentanaAltaPrenda extends JFrame {
 		cmbTemporada.setBounds(260, 29, 120, 20);
 		cmbTemporada.addItem("Sin Temporada");
 		cmbTemporada.addItem("Verano");
-		cmbTemporada.addItem("Otoño");
+		cmbTemporada.addItem("Otoï¿½o");
 		cmbTemporada.addItem("Invierno");
 		cmbTemporada.addItem("Primavera");
 	} //private void cargaComboTemporadas()
 	
 	private void cargaComboMateriales() {
-		// TODO Auto-generated method stub
 		cmbMaterial = new JComboBox<String>();
 		getContentPane().add(cmbMaterial);
 		cmbMaterial.setBounds(70, 143, 120, 20);
-		// TODO Show something if vector is empty
 		for(int i = 0; i< idsMateriales.length;i++){
-
 			cmbMaterial.addItem(sistemaIndumentaria.getNombreItemPrenda(idsMateriales[i]));
 		}
 		//Evento que al seleccionar un material del combo, me guarda el codigo de este en una variable
@@ -322,22 +319,21 @@ public class VentanaAltaPrenda extends JFrame {
 		bError = false;
 		lblError.setText("");
 		
-		// TODO Auto-generated method stub
 		if(txtCodigo.getValue() == null || (int)txtCodigo.getValue() == 0){
 			
-			lblError.setText("Debe ingresar un código de Prenda válido");
+			lblError.setText("Debe ingresar un cï¿½digo de Prenda vï¿½lido");
 			bError = true;
 		}		
 		
 		if(txtNombre.getText().length() == 0 && !bError){
 			
-			lblError.setText("Debe ingresar un nombre de Prenda válido");
+			lblError.setText("Debe ingresar un nombre de Prenda vï¿½lido");
 			bError = true;
 		}
 		
 		if(txtStock.getValue() == null && !bError || (int)txtStock.getValue() == 0 && !bError){
 			
-			lblError.setText("Debe ingresar un stock de Prenda válido");
+			lblError.setText("Debe ingresar un stock de Prenda vï¿½lido");
 			bError = true;
 		}
 	}
@@ -378,10 +374,20 @@ public class VentanaAltaPrenda extends JFrame {
 	
 	private void updateTable(){
 		if(idsMateriales.length > 0){
-			for (int i = 0; i < materialesAgregados.length; i++) {
-				tblTablaMateriales.getModel().setValueAt(
-					sistemaIndumentaria.getNombreItemPrenda(materialesAgregados[i][0]), i, 0);
-				tblTablaMateriales.getModel().setValueAt(materialesAgregados[i][1], i, 1);
+			System.out.println("Materiales agregados: "+materialesAgregados.length);
+			if(materialesAgregados.length > 0){
+				for (int i = 0; i < materialesAgregados.length; i++) {
+					System.out.println("In: "+i);
+					tblTablaMateriales.getModel().setValueAt(
+						sistemaIndumentaria.getNombreItemPrenda(materialesAgregados[i][0]), i, 0);
+					tblTablaMateriales.getModel().setValueAt(materialesAgregados[i][1], i, 1);
+				}
+			} else {
+				// Clean table
+				for (int i = 0; i < idsMateriales.length; i++) {
+					tblTablaMateriales.getModel().setValueAt("", i, 0);
+					tblTablaMateriales.getModel().setValueAt("", i, 1);
+				}
 			}
 		}
 	}
@@ -421,6 +427,5 @@ public class VentanaAltaPrenda extends JFrame {
 		btnAceptar.setVisible(bMuestra);
 		btnCancelar.setVisible(bMuestra);
 
-		
 	}
 }
