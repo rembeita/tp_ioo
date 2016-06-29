@@ -122,8 +122,12 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 				{
 					public void actionPerformed(ActionEvent evt) 
 					{
-						boolean respuesta = sistema.modificarPrenda(Integer.parseInt(codigoPrenda.getText()), (String)nombre_prenda.getText(),
-								Integer.parseInt(stock.getText()), (float)Integer.parseInt(precio_prenda.getText()));
+						boolean respuesta = sistema.modificarPrenda(Integer.parseInt(codigoPrenda.getText()), 
+								(String)nombre_prenda.getText(), Integer.parseInt(stock.getText()), 
+								Float.parseFloat(precio_prenda.getText()));
+						
+						
+						
 						if (respuesta == true){
 							getContentPane().add(mensaje);
 							mensaje.setText("La prenda se modifico correctamente");
