@@ -33,24 +33,6 @@ public class SistemaIndumentaria
 		materiales.add(material6);
 		materiales.add(material7);
 		
-		Prenda prenda_sin_temporada3 = new PrendaSinTemporada(1, "CACA", 20);
-		prenda_sin_temporada3.agregarItemPrenda(10, material1);
-		prendas.add(prenda_sin_temporada3);
-		
-		Prenda prenda_sin_temporada4 = new PrendaSinTemporada(3, "ROD", 20);
-		prenda_sin_temporada4.agregarItemPrenda(20, material1);
-		prendas.add(prenda_sin_temporada4);
-		
-	
-//		prenda_sin_temporada3.setPrecioPrenda(200);
-	//	prendas.add(prenda_sin_temporada3); el metodo altaprendasintemporada ya realiza un add
-		
-		
-		
-//		Prenda prenda_sin_temporada2 = this.AltaPrendaSinTemporada(10, "pantalon2", 10, material2, 75);
-//		prenda_sin_temporada2.setPrecioPrenda(400);
-
-	//	prendas.add(prenda_sin_temporada2); el metodo altaprendasintemporada ya realiza un add
 	}
 	
 	public SistemaIndumentaria()
@@ -63,63 +45,26 @@ public class SistemaIndumentaria
 		facturas = new Vector<Factura>();
 		cargaInicial();
 	}
-	
-	//25/01 claguirre
-	
-//	public Prenda AltaPrendaSinTemporada(int codigo, String nombrePrenda, int stock, Material material, int cantMaterial)
-//	{
-//
-//		Prenda devolucionPrenda;
-//		if (material.reducirStock(cantMaterial))
-//		{
-//			PrendaSinTemporada prenda_sin_temporada = new PrendaSinTemporada(codigo, nombrePrenda, stock, material, cantMaterial);
-//			prenda_sin_temporada.calcularPrecio();
-//			devolucionPrenda = prenda_sin_temporada;
-//			prendas.add(prenda_sin_temporada);
-//			material.imprimirCantStock();
-//		}
-//		else
-//		{
-//			return null;
-//		}
-//		return devolucionPrenda;
-//	}
-//	
+
 	public boolean AltaPrendaSinTemporada(int codigo, String nombrePrenda, int stock){
-		if(this.buscarPrenda(codigo) != null){
+		if(this.buscarPrenda(codigo) == null){
 			prendaActual = new PrendaSinTemporada(codigo, nombrePrenda, stock);
+//			System.out.println("PRENDA ACTUAL IN"+prendaActual);
 			return true;
 		}
-		System.out.println(prendaActual);
+//		System.out.println("PRENDA ACTUAL"+prendaActual);
 		return false;
 	}
 	
-	
-//	public Prenda AltaPrendaDeTemporada(int codigo, String nombrePrenda, int stock, Material material, int cantMaterial, String epoca)
-//	{
-//		Prenda devolucionPrenda;
-//		if (material.reducirStock(cantMaterial))
-//		{
-//			prendaDeTemporada prenda_de_temporada = new prendaDeTemporada(codigo, nombrePrenda, stock, material, cantMaterial, epoca);
-//			prenda_de_temporada.calcularPrecio();
-//			devolucionPrenda = prenda_de_temporada;
-//			prendas.add(prenda_de_temporada);
-//			material.imprimirCantStock();
-//		}
-//		else
-//		{
-//			return null;
-//		}
-//		return devolucionPrenda;
-//	}
-	public void AltaPrendaDeTemporada(int codigo, String nombrePrenda, int stock, String epoca)
+	public boolean AltaPrendaDeTemporada(int codigo, String nombrePrenda, int stock, String epoca)
 	{
-		Prenda devolucionPrenda;
-			prendaDeTemporada prenda_de_temporada = new prendaDeTemporada(codigo, nombrePrenda, stock, epoca);
-			prenda_de_temporada.calcularPrecio();
-			devolucionPrenda = prenda_de_temporada;
-			prendas.add(prenda_de_temporada);
-//			material.imprimirCantStock();
+		if(this.buscarPrenda(codigo) == null){
+			prendaActual = new prendaDeTemporada(codigo, nombrePrenda, stock, epoca);
+//			System.out.println("PRENDA ACTUAL IN"+prendaActual);
+			return true;
+		}
+//		System.out.println("PRENDA ACTUAL"+prendaActual);
+		return false;
 	}
 	
 	
