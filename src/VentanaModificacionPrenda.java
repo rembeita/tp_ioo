@@ -176,6 +176,7 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 							stock.setText(Integer.toString(sistema.buscarPrenda(codigoPrendaFormatted).getStockPrenda()));
 							modificar.setVisible(true);
 							precio_prenda.setVisible(true);
+							precio_prenda.setEnabled(false);
 							precio_prenda.setText(Float.toString(sistema.buscarPrenda(codigoPrendaFormatted).getPrecioPrenda()));
 						}
 						else
