@@ -69,9 +69,11 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame
 							jMenuPrendasItemAlta = new JMenuItem();
 							jMenuPrendas.add(jMenuPrendasItemAlta);
 							jMenuPrendasItemAlta.setText("Alta Prenda");
-							jMenuPrendasItemAlta.addActionListener(new ActionListener() {
+							jMenuPrendasItemAlta.addActionListener(new ActionListener() 
+							{
 								
-								public void actionPerformed(ActionEvent e) {
+								public void actionPerformed(ActionEvent e) 
+								{
 									VentanaAltaPrenda vtnAltaprenda = new VentanaAltaPrenda(sistemaIndumentaria);
 									vtnAltaprenda.setVisible(true);									
 								}
@@ -81,12 +83,16 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame
 							jMenuPrendasItemBaja = new JMenuItem();
 							jMenuPrendas.add(jMenuPrendasItemBaja);
 							jMenuPrendasItemBaja.setText("Baja Prenda");
-							jMenuPrendasItemBaja.addActionListener(new ActionListener() {
+							jMenuPrendasItemBaja.addActionListener(new ActionListener() 
+							{
 								public void actionPerformed(ActionEvent evt) 
 								{
-//										Baja Prenda
-								}
-							});											
+											VentanaBajaPrenda vtnBajaPrenda = new VentanaBajaPrenda(sistemaIndumentaria);
+											vtnBajaPrenda.setVisible(true);
+
+									}
+							 });
+										
 						
 							//Menu - Modificacion
 							jMenuPrendasItemModificacion = new JMenuItem();

@@ -96,6 +96,12 @@ public class Prenda
 		this.codigoPrenda = this.getCodigoPrenda()*-1;
 				
 	}
+
+	public void actualizarPrenda(String nombre, int stock, float precio) {
+			this.nombrePrenda = nombre;
+			this.stockPrenda = stock; 
+			this.precioPrenda = precio;
+	}
 	
 	
 }

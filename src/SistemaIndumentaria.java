@@ -115,15 +115,11 @@ public class SistemaIndumentaria
 	public void AltaPrendaDeTemporada(int codigo, String nombrePrenda, int stock, String epoca)
 	{
 		Prenda devolucionPrenda;
-		
-
 			prendaDeTemporada prenda_de_temporada = new prendaDeTemporada(codigo, nombrePrenda, stock, epoca);
 			prenda_de_temporada.calcularPrecio();
 			devolucionPrenda = prenda_de_temporada;
 			prendas.add(prenda_de_temporada);
 //			material.imprimirCantStock();
-
-
 	}
 	
 	
@@ -288,7 +284,6 @@ public class SistemaIndumentaria
 	
 	public Vector<Vector> getOC() 
 	{
-		
 		 Vector<Vector> filas = new Vector<Vector>();
 		 Vector<String> titulo = new Vector<String>();
 		 String codigot = "Codigo:";
@@ -315,9 +310,6 @@ public class SistemaIndumentaria
 		
 				
 			}
-	
-		
-	
 		return filas;
 	}
 	
@@ -340,19 +332,21 @@ public class SistemaIndumentaria
 		prendaActual.agregarItemPrenda(cantMaterial, material);
 	}
 	
-	public boolean bajaPrenda(int codigo)
-	{
-		Prenda prendainstanciada;
-		prendainstanciada = this.buscarPrenda(codigo);
-		if (prendainstanciada == null)
-			return false;
-		//prendainstanciada.setCodigoPrenda(prendainstanciada.getCodigoPrenda() * -1);
-		prendainstanciada.baja();
-		return true;
+	public void bajaPrenda(int codigo){
+		Prenda prendainstanciada = this.buscarPrenda(codigo);
+		if (prendainstanciada != null)
+			prendainstanciada.baja();
 	}
 	
-	public void modificarPrenda(){
-		
+	public boolean modificarPrenda(int codigo, String nombre, int stock, float precio){
+		Prenda prenda = this.buscarPrenda(codigo);
+		if (prenda != null){
+			prenda.actualizarPrenda(nombre, stock, precio);
+			return true;
+		}else{
+			return false;
+		}
+			
 	}
 
 	public void finalizarAltaPrenda() {

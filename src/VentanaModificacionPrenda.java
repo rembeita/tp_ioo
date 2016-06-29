@@ -25,9 +25,11 @@ import javax.swing.WindowConstants;
 public class VentanaModificacionPrenda extends javax.swing.JFrame {
 	private JLabel jLabel1;
 	private JLabel jLabel2;
+	private JLabel jLabel3;
 	private JLabel jLabel4;
 	private JLabel jLabel5;
-
+	private JLabel mensaje = new JLabel();
+	
 	private JButton buscar;
 	private JTextField codigoPrenda;
 	private JButton modificar;
@@ -36,10 +38,9 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 	private JTextField codigo;
 	private JTextField precio_prenda;
 
-	private JLabel jLabel3;
 	
 	private SistemaIndumentaria sistema;
-	private Prenda prenda;
+//	private int codprenda;
 //	private prendaDeTemporada prendacon;
 //	private AlumnoView alumno;
 
@@ -49,10 +50,8 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 	public VentanaModificacionPrenda(SistemaIndumentaria sistemaindu) {
 		super();
 		sistema = sistemaindu;
-		initGUI();
-		
+		initGUI();	
 	}
-	
 	
 	private void initGUI() {
 		try {
@@ -113,9 +112,19 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 				{
 					public void actionPerformed(ActionEvent evt) 
 					{
-						prenda.setNombrePrenda(nombre_prenda.getText());
-						prenda.setStockPrenda(Integer.parseInt(stock.getText()));
-						prenda.setPrecioPrenda(Float.parseFloat(precio_prenda.getText()));
+						boolean respuesta = sistema.modificarPrenda(Integer.parseInt(codigoPrenda.getText()), (String)nombre_prenda.getText(),
+								Integer.parseInt(stock.getText()), (float)Integer.parseInt(precio_prenda.getText()));
+						if (respuesta == true){
+							getContentPane().add(mensaje);
+							mensaje.setText("La prenda se modifico correctamente");
+							mensaje.setBounds(119, 52, 210, 28);
+							mensaje.setVisible(true);
+							jLabel1.setVisible(false);
+							jLabel2.setVisible(false);
+							jLabel3.setVisible(false);
+							jLabel4.setVisible(false);
+
+						}
 						limpiarpantalla();
 					}
 				});
@@ -143,15 +152,15 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 			{
 				buscar = new JButton();
 				getContentPane().add(buscar);
-				buscar.setText("buscar");
+				buscar.setText("Buscar");
 				buscar.setBounds(301, 17, 77, 28);
 				buscar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent evt) {
 						int codigoPrendaFormatted = Integer.parseInt(codigoPrenda.getText());
-						prenda = sistema.buscarPrenda(codigoPrendaFormatted);
-						System.out.println("Prenda: " + prenda);
 
-						if (prenda != null)
+						System.out.println("Prenda: " + sistema.buscarPrenda(codigoPrendaFormatted));
+
+						if (sistema.buscarPrenda(codigoPrendaFormatted) != null)
 						{
 							jLabel1.setVisible(true);
 							jLabel2.setVisible(true);
@@ -160,27 +169,20 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 
 							codigo.setVisible(true);
 							codigo.setEnabled(false);
-							codigo.setText(Integer.toString(prenda.getCodigoPrenda()));
+							codigo.setText(Integer.toString(sistema.buscarPrenda(codigoPrendaFormatted).getCodigoPrenda()));
 							nombre_prenda.setVisible(true);
-							nombre_prenda.setText(prenda.getNombrePrenda());
+							nombre_prenda.setText(sistema.buscarPrenda(codigoPrendaFormatted).getNombrePrenda());
 							stock.setVisible(true);
-							stock.setText(Integer.toString(prenda.getStockPrenda()));
+							stock.setText(Integer.toString(sistema.buscarPrenda(codigoPrendaFormatted).getStockPrenda()));
 							modificar.setVisible(true);
 							precio_prenda.setVisible(true);
-							precio_prenda.setText(Float.toString(prenda.getPrecioPrenda()));
-
-
+							precio_prenda.setText(Float.toString(sistema.buscarPrenda(codigoPrendaFormatted).getPrecioPrenda()));
 						}
 						else
 						{
 							limpiarpantalla();
 						}
-						
-
-						
 					}
-
-					
 				});
 			}
 			pack();
@@ -208,3 +210,4 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 	}
 
 }
+
