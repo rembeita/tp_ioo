@@ -8,20 +8,22 @@ public class ordenDeCompra {
 	private Vector<itemOC> itemsOCs;
 	private String nombreProveedor;
 
-	// Faltaria agregar precio unitario
-	public ordenDeCompra(int codigoOC, String fechaOC, Vector<itemOC> itemocs) {
+	public ordenDeCompra(String proveedor, Vector<Material> materiales) {
 		super();
 
-		this.codigoOC = codigoOC;
-		this.fechaOC = fechaOC;
-		this.nombreProveedor = itemocs.firstElement().getMaterial().getProveedor().getNombreProveedor();
+		SistemaIndumentaria sistemaindumentaria = new SistemaIndumentaria();
+		this.codigoOC = sistemaindumentaria.getIdsOC().size()+1;
+		this.fechaOC = "Hoy";
+		this.nombreProveedor = proveedor;
 		this.itemsOCs = new Vector<itemOC>();
-
-		for (int i = 0; i < itemocs.size(); i++) {
-			itemOC item = itemocs.elementAt(i);
-			Material mat = item.getMaterial();
-			itemsOCs.add(item);
-			this.totalOC += (float) (mat.getCosto() * item.getCantPedir());
+		
+		if(materiales.size() > 0){
+			for (int i = 0; i < materiales.size(); i++) {
+				Material mat = materiales.elementAt(i);
+				itemOC item = new itemOC(mat, mat.getCantidadAPedir());
+				itemsOCs.add(item);
+				this.totalOC += (float) (mat.getCosto() * item.getCantPedir());
+			}
 		}
 	}
 
@@ -70,7 +72,6 @@ public class ordenDeCompra {
 		for (int i = 0; i < itemsOCs.size(); i++) {
 			total = total + (itemsOCs.elementAt(i).getCantPedir() * itemsOCs.elementAt(i).getMaterial().getCosto());
 		}
-		System.out.println("El valor total de la OC es: " + total);
 		this.totalOC = total;
 	}
 

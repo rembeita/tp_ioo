@@ -133,7 +133,7 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame
 						jMenuListadoOC.setText("Listado OC");
 						jMenuListadoOC.addMenuListener(new MenuListener() {
 							public void menuSelected(MenuEvent evt) {
-								VentanaOC ventanaoc = new VentanaOC();
+								VentanaOC ventanaoc = new VentanaOC(sistemaIndumentaria);
 								ventanaoc.setVisible(true);
 							}
 							public void menuDeselected(MenuEvent evt) {
