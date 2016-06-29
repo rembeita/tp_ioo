@@ -342,7 +342,7 @@ public class SistemaIndumentaria
 		return items;
 	}
 
-	public String getNombreItemPrenda(Integer codigo) {
+	public String getNombreItemPrenda(int codigo) {
 		return this.buscarMaterial(codigo).getNombreMaterial();
 	}		
 }
