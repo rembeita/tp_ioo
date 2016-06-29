@@ -19,7 +19,7 @@ public class SistemaIndumentaria
 		proveedores.add(proveedor1);
 		proveedores.add(proveedor2);
 
-		Material material1 = new Material(10, "botones", 80, proveedor1, (float) 5.5, 100, 20);
+		Material material1 = new Material(10, "botones", 10, proveedor1, (float) 5.5, 100, 20);
 		Material material2 = new Material(20, "algodon", 80, proveedor2, (float) 8.5, 200, 10);
 		Material material3 = new Material(30, "hilo", 80, proveedor2, (float) 2.5, 200, 10);
 		Material material4 = new Material(40, "cierre", 80, proveedor1, (float) 1.5, 200, 10);
@@ -64,95 +64,76 @@ public class SistemaIndumentaria
 		return false;
 	}
 	
+	public Map<String, String> buscarOc(Integer codigo) {
+		Map<String, String> datos = new HashMap<String, String>();
+		if(ordenesDeCompra.size() > 0){
+			for (int i = 0; i < ordenesDeCompra.size(); i++) {
+				ordenDeCompra oc = ordenesDeCompra.elementAt(i);
+				if(oc.sosOC(codigo)){
+					datos.put("codigo", String.valueOf(oc.getCodigoOC()));
+					datos.put("fecha", oc.getFechaOC());
+					datos.put("proveedor", oc.getNombreProveedor());
+					datos.put("total", String.valueOf(oc.getTotalOC()));
+					break;
+				}
+			}
+		}
+		return datos;
+	}
 	
-	public void ControlarStockMateriales()
-	{
+	public Vector<Integer> getIdsOC(){
+		Vector<Integer> ids = new Vector<Integer>();
+		if(ordenesDeCompra.size() > 0){
+			for (int i = 0; i < ordenesDeCompra.size(); i++) {
+				ids.add(ordenesDeCompra.elementAt(i).getCodigoOC());
+			}
+		}
+		return ids;
+	}
+	
+	public void ControlarStockMateriales(){
 		for (int i = 0; i < materiales.size(); i++) {
 			Material mat = materiales.elementAt(i);
-			if(mat.getCantStock() <= mat.getPuntoDeReposicion())
-			{
+			if(mat.getCantStock() <= mat.getPuntoDeReposicion()){
 				materialesAPedir.add(mat);
 			}
 		}
-		if(materialesAPedir.size()>0)
-		{
-			Vector<Material>aux;
-			aux = new Vector<Material>();
-			aux.add(materialesAPedir.elementAt(0));
-			materialesAPedir.removeElementAt(0);
-			int count = 0;
-			while(aux.size() > 0)
-			{
-				for (int i = 0; i < materialesAPedir.size(); i++)
-				{
-					Material mat = materialesAPedir.elementAt(i);
-					if(mat.getProveedor().getCodigoProveedor() == aux.elementAt(0).getProveedor().getCodigoProveedor())
-					{
-						aux.add(mat);
-						materialesAPedir.removeElementAt(i);
-						i--;
-					}
-				}
-				// Crear Orden de compra
-				this.generarOrdenDeCompra(aux);
-				count++;
-				aux.removeAllElements();
-				if(materialesAPedir.size() > 0)
-				{
-					aux.add(materialesAPedir.elementAt(0));
-					materialesAPedir.removeElementAt(0);
-				}
+		if(materialesAPedir.size()>0){
+			while(materialesAPedir.size() > 0){
+				Vector<Material> materialesPorProveedor = this.filtrarPorProveedor(materialesAPedir);
+				String proveedor = materialesPorProveedor.elementAt(0).getProveedor().getNombreProveedor();
+				ordenDeCompra oc = new ordenDeCompra(proveedor, materialesPorProveedor);
+				ordenesDeCompra.add(oc);
+				materialesAPedir = this.eliminarMatPorProveedor(proveedor);
 			}
-			System.out.println("Se generaron: "+count+" ordenes de compras");
 		}
 	}
 	
-	public void generarOrdenDeCompra(Vector<Material> materiales)
-	{
-		Vector<itemOC>itemocs;
-		itemocs = new Vector<itemOC>();
-		for (int i = 0; i < materiales.size(); i++) {
+	private Vector<Material> filtrarPorProveedor(Vector<Material> materiales){
+		Vector<Material> filtrados = new Vector<Material>();
+		filtrados.addElement(materiales.elementAt(0));
+		materiales.removeElementAt(0);
+		for (int i = 0; i < materiales.size(); i++){
 			Material mat = materiales.elementAt(i);
-			itemOC itemOc = new itemOC(mat, mat.getCantidadAPedir());
-			itemocs.add(itemOc);
-		}
-		// El codigo de la orden de compra (ordenesDeCompra.size()) ira aumentando 1,2,3.. secuencialmente.
-		ordenDeCompra orden = new ordenDeCompra(ordenesDeCompra.size()+1, "Hoy",itemocs);
-		ordenesDeCompra.add(orden);
-	}
-	
-	public void ListarOrdenesDeCompra() {
-		// Faltaria chequear si las ordenes de compra son del mismo proveedor
-		if(ordenesDeCompra.size() > 0)
-		{
-			System.out.println("Ordenes de compras:");
-			for (int i = 0; i < ordenesDeCompra.size(); i++) {
-				ordenDeCompra orden = ordenesDeCompra.elementAt(i);
-				Vector<itemOC> items = orden.getItemsOCs();
-				System.out.println("------------------");
-				System.out.println("Fecha: "+orden.getFechaOC());
-				System.out.println("Codigo: "+orden.getCodigoOC());
-				System.out.println("Materiales a pedir:");
-				for (int j = 0; j < items.size(); j++) {
-					itemOC item = items.elementAt(j);
-					System.out.println("  ----------------");
-					System.out.println(" - Nombre: "+item.getMaterial().getNombreMaterial());
-					System.out.println(" - Cantidad: "+item.getCantPedir());
-					System.out.println("  ----------------");
-				}
-				System.out.println("Proveedor: "+orden.getNombreProveedor());
-				System.out.println("TOTAL: "+orden.getTotalOC());
-				System.out.println("------------------");
+			if(mat.getProveedor().getCodigoProveedor() == filtrados.elementAt(0).getProveedor().getCodigoProveedor()){
+				filtrados.add(mat);
 			}
 		}
-		else
-		{
-			System.out.println("No hay ordenes de compra");
-		}
+		return filtrados;
 	}
 	
-	public Prenda buscarPrenda(int cod)
-	{
+	private Vector<Material> eliminarMatPorProveedor(String proveedor){
+		Vector<Material> materiales = new Vector<Material>();
+		for (int i = 0; i < materiales.size(); i++){
+			Proveedor prov = materiales.elementAt(i).getProveedor();
+			if(prov.getNombreProveedor() == proveedor){
+				materiales.remove(i);
+			}
+		}
+		return materiales;
+	}
+	
+	public Prenda buscarPrenda(int cod){
 	
 		for (int j=0; j < prendas.size(); j++)
 		{
@@ -213,15 +194,31 @@ public class SistemaIndumentaria
 		this.prendas = prendas;
 	}
 	
-	public int generarFactura(int numeroCliente, String nombreCliente)
-	{
+	public int generarFactura(int numeroCliente, String nombreCliente){
 		int numeroFactura = facturas.size()+1;
 		Factura nuevaFactura = new Factura(numeroFactura, numeroCliente, nombreCliente);
 		facturas.add(nuevaFactura);
 		return nuevaFactura.getNroFactura();
 	}
 
-	public Factura buscarFactura(int numFactura){
+	public Map<String, String> buscarFactura(int numFactura){
+		Map<String, String> datos = new HashMap<String, String>();
+		if(facturas.size() > 0){
+			for (int i = 0; i < facturas.size(); i++) {
+				if(numFactura == facturas.elementAt(i).getNroFactura()){
+					Factura fac = facturas.elementAt(i); 
+					datos.put("nroFactura", String.valueOf(fac.getNroFactura()));
+					datos.put("nombreLocal", fac.getNombreLocal());
+					datos.put("nombreCliente", fac.getNombreCliente());
+					datos.put("numCliente", String.valueOf(fac.getNumCliente()));
+					datos.put("total", String.valueOf(fac.getPrecioTotal()));
+				}
+			}
+		}
+		return datos;
+	}
+	
+	private Factura getFactura(int numFactura){
 		if(facturas.size() > 0){
 			for (int i = 0; i < facturas.size(); i++) {
 				if(numFactura == facturas.elementAt(i).getNroFactura()){
@@ -232,7 +229,16 @@ public class SistemaIndumentaria
 		return null;
 	}
 	
-	public void eliminarFactura(Factura factura){
+	public int[][] getItemfacturas(int codigo){
+		int[][] items = new int[0][2];
+		if(getFactura(codigo) != null){
+			items = getFactura(codigo).getItemfacturas();
+		}
+		return items;
+	}
+	
+	public void eliminarFactura(Integer numFactura){
+		Factura factura = this.getFactura(numFactura);
 		if(facturas.size()>0){
 			int nroFac = factura.getNroFactura();
 			for (int i = 0; i < facturas.size(); i++) {
@@ -244,49 +250,11 @@ public class SistemaIndumentaria
 		}
 	}
 	
-	public Vector<Vector> getOC() 
-	{
-		 Vector<Vector> filas = new Vector<Vector>();
-		 Vector<String> titulo = new Vector<String>();
-		 String codigot = "Codigo:";
-		 String fechat = "Fecha:";
-		 String totalt = "Total:";
-		 String proveedort = "Proveedor:";
-		titulo.add(codigot);
-		titulo.add(fechat);
-		titulo.add(totalt);
-		titulo.add(proveedort);
-		filas.add(titulo);
-		 for (int i = 0; i < ordenesDeCompra.size(); i++) {
-				ordenDeCompra ordenDecompra = ordenesDeCompra.elementAt(i);
-				int codigo = ordenDecompra.getCodigoOC();
-				String fecha = ordenDecompra.getFechaOC();
-				float total = ordenDecompra.getTotalOC();
-				String proveedor = ordenDecompra.getNombreProveedor();
-				Vector<String> aux = new Vector<String>();
-				aux.add(Integer.toString(codigo));
-				aux.add(fecha);
-				aux.add(Float.toString(total));
-				aux.add(proveedor);
-				filas.add(aux);
-
-			}
-		return filas;
-	}
-	
 	public void agregarPrenda(int codfac, int codPrenda, int cantidad) {
-		Factura fac = buscarFactura(codfac);
+		Factura fac = this.getFactura(codfac);
 		Prenda prenda = buscarPrenda(codPrenda);
 		fac.incorporarItemFactura(cantidad, prenda);
 	}
-	
-	//Nuevo 25/06 claguirre
-	/*public void generarItemPrenda(int codigoPrenda, int codigoMaterial, int cantMaterial){
-		
-		Prenda prenda = buscarPrenda(codigoPrenda);
-		Material material = buscarMaterial(codigoMaterial);
-		prenda.agregarItemPrenda(cantMaterial, material);;
-	}*/
 	
 	public void generarItemPrenda(int codigoMaterial, int cantMaterial){
 		Material material = buscarMaterial(codigoMaterial);
@@ -315,7 +283,6 @@ public class SistemaIndumentaria
 	public void finalizarAltaPrenda() {
 		prendas.add(prendaActual);
 		prendaActual = null;
-		System.out.println(prendas);
 	}
 
 	public int[] getIdsMateriales() {
@@ -344,5 +311,6 @@ public class SistemaIndumentaria
 
 	public String getNombreItemPrenda(Integer codigo) {
 		return this.buscarMaterial(codigo).getNombreMaterial();
-	}		
+	}
+
 }
