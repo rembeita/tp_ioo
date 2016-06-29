@@ -339,9 +339,11 @@ public class SistemaIndumentaria
 	}
 	
 	public boolean modificarPrenda(int codigo, String nombre, int stock, float precio){
-		Prenda prenda = this.buscarPrenda(codigo);
-		if (prenda != null){
-			prenda.actualizarPrenda(nombre, stock, precio);
+		Prenda prendatmp = this.buscarPrenda(codigo);
+		if (prendatmp != null){
+			prendatmp.setNombrePrenda(nombre);
+			prendatmp.setStockPrenda(stock);
+			prendatmp.setPrecioPrenda(precio);
 			return true;
 		}else{
 			return false;
