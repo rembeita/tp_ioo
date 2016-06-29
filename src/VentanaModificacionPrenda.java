@@ -33,6 +33,7 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 	private JButton buscar;
 	private JTextField codigoPrenda;
 	private JButton modificar;
+	private JButton btnSalir;
 	private JTextField stock;
 	private JTextField nombre_prenda;
 	private JTextField codigo;
@@ -58,6 +59,19 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);
 			//Visualizador de Errores
+			
+			{
+				btnSalir = new JButton();
+				getContentPane().add(btnSalir);
+				btnSalir.setText("Salir");
+				btnSalir.setBounds(30, 277, 80, 23);
+				btnSalir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
+			}			
+			
 			{
 				lblError = new JLabel();
 				getContentPane().add(lblError);
