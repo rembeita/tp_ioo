@@ -40,6 +40,7 @@ public class VentanaBajaPrenda extends JFrame {
 		private JButton btnBuscarPrenda = new JButton("Buscar Prenda");
 		private JButton btnEliminar = new JButton("Eliminar");
 		private JButton btnCancelar = new JButton("Cancelar");
+		private JButton btnSalir;
 		
 		private Vector<Integer> prendas;
 		
@@ -75,6 +76,17 @@ public class VentanaBajaPrenda extends JFrame {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);
 			
+			{
+				btnSalir = new JButton();
+				getContentPane().add(btnSalir);
+				btnSalir.setText("Salir");
+				btnSalir.setBounds(30, 337, 80, 23);
+				btnSalir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
+			}
 			// Listeners
 			btnBuscarPrenda.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -83,7 +95,7 @@ public class VentanaBajaPrenda extends JFrame {
 						lblPrendaEncontrada.setVisible(false);
 						lblNombrePrenda.setVisible(false);
 						btnEliminar.setVisible(false);
-						btnCancelar.setVisible(false);
+						btnCancelar.setVisible(true);
 						if (prenda != null){
 							lblPrendaEncontrada.setVisible(true);
 							lblNombrePrenda.setText(prenda.getNombrePrenda());
@@ -96,6 +108,7 @@ public class VentanaBajaPrenda extends JFrame {
 							lblError.setBounds(120, 230, 300, 30);
 							lblError.setForeground(new Color(255, 0, 0));
 							lblPrendaEncontrada.setVisible(false);
+							btnCancelar.setVisible(false);
 						}
 					}
 				}
@@ -156,8 +169,8 @@ public class VentanaBajaPrenda extends JFrame {
 			lblError.setBounds(180, 100, 200, 30);
 			lblError.setForeground(new Color(255, 0, 0));
 			lblError.setVisible(true);
-			btnCancelar.setBounds(170, 220, 200, 30);
-			btnCancelar.setText("Salir");
+			//btnCancelar.setBounds(170, 220, 200, 30);
+			//btnCancelar.setText("Salir");
 		}
 	}
 	
