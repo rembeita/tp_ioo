@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -28,6 +29,7 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 	private JLabel jLabel3;
 	private JLabel jLabel4;
 	private JLabel jLabel5;
+	private JLabel lblError;
 	private JLabel mensaje = new JLabel();
 	
 	private JButton buscar;
@@ -57,6 +59,14 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 		try {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);
+			//Visualizador de Errores
+			{
+				lblError = new JLabel();
+				getContentPane().add(lblError);
+				lblError.setBounds(5, 0, 450, 20);
+				lblError.setForeground(new Color(255, 0, 0));
+			}
+			
 			{
 				jLabel1 = new JLabel();
 				getContentPane().add(jLabel1);
@@ -156,33 +166,42 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 				buscar.setBounds(301, 17, 77, 28);
 				buscar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent evt) {
-						int codigoPrendaFormatted = Integer.parseInt(codigoPrenda.getText());
+						
+						if(codigoPrenda.getText().length() == 0){
+						
+							lblError.setText("Error: Debe ingresar un código válido");							
+						}else{
+							
+							int codigoPrendaFormatted = Integer.parseInt(codigoPrenda.getText());
 
-						System.out.println("Prenda: " + sistema.buscarPrenda(codigoPrendaFormatted));
+							System.out.println("Prenda: " + sistema.buscarPrenda(codigoPrendaFormatted));
 
-						if (sistema.buscarPrenda(codigoPrendaFormatted) != null)
-						{
-							jLabel1.setVisible(true);
-							jLabel2.setVisible(true);
-							jLabel3.setVisible(true);
-							jLabel5.setVisible(true);
-
-							codigo.setVisible(true);
-							codigo.setEnabled(false);
-							codigo.setText(Integer.toString(sistema.buscarPrenda(codigoPrendaFormatted).getCodigoPrenda()));
-							nombre_prenda.setVisible(true);
-							nombre_prenda.setText(sistema.buscarPrenda(codigoPrendaFormatted).getNombrePrenda());
-							stock.setVisible(true);
-							stock.setText(Integer.toString(sistema.buscarPrenda(codigoPrendaFormatted).getStockPrenda()));
-							modificar.setVisible(true);
-							precio_prenda.setVisible(true);
-							precio_prenda.setEnabled(false);
-							precio_prenda.setText(Float.toString(sistema.buscarPrenda(codigoPrendaFormatted).getPrecioPrenda()));
-						}
-						else
-						{
-							limpiarpantalla();
-						}
+							if (sistema.buscarPrenda(codigoPrendaFormatted) != null)
+							{
+								jLabel1.setVisible(true);
+								jLabel2.setVisible(true);
+								jLabel3.setVisible(true);
+								jLabel5.setVisible(true);
+								lblError.setText("");
+								
+								codigo.setVisible(true);
+								codigo.setEnabled(false);
+								codigo.setText(Integer.toString(sistema.buscarPrenda(codigoPrendaFormatted).getCodigoPrenda()));
+								nombre_prenda.setVisible(true);
+								nombre_prenda.setText(sistema.buscarPrenda(codigoPrendaFormatted).getNombrePrenda());
+								stock.setVisible(true);
+								stock.setText(Integer.toString(sistema.buscarPrenda(codigoPrendaFormatted).getStockPrenda()));
+								modificar.setVisible(true);
+								precio_prenda.setVisible(true);
+								precio_prenda.setEnabled(false);
+								precio_prenda.setText(Float.toString(sistema.buscarPrenda(codigoPrendaFormatted).getPrecioPrenda()));
+							}
+							else
+							{
+								lblError.setText("Error: Prenda no encontrada");
+								limpiarpantalla();
+							} //else - if (sistema.buscarPrenda(codigoPrendaFormatted) != null)							
+						} // else - if(codigoPrenda.getText() == "" || Integer.parseInt(codigoPrenda.getText()) <= 0)
 					}
 				});
 			}
