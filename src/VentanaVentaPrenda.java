@@ -31,7 +31,7 @@ import javax.swing.text.NumberFormatter;
 public class VentanaVentaPrenda extends JFrame{
 
 	private JLabel lblDatosCliente = new JLabel("Datos de Cliente", SwingConstants.CENTER);
-	private JLabel lblNumCliente = new JLabel("Número:");
+	private JLabel lblNumCliente = new JLabel("Nï¿½mero:");
 	private JLabel lblNombreCliente = new JLabel("Nombre:");
 	private JLabel lblSeleccionarItem = new JLabel("Seleccionar Prenda:");
 	private JLabel lblError = new JLabel();
@@ -53,7 +53,7 @@ public class VentanaVentaPrenda extends JFrame{
 	private JTextField txfNombreCliente = new JTextField();
 	
 	private SistemaIndumentaria sistemaIndumentaria;
-	private Vector<Prenda> prendas;
+	private Vector<Integer> prendas;
 	private int codfac;
 	private int codprendaSeleccionada;
 	private Vector<itemFactura> itemsFactura = new Vector<itemFactura>();
@@ -65,7 +65,9 @@ public class VentanaVentaPrenda extends JFrame{
 		super();
 		sistemaIndumentaria = sistema;
 		prendas = sistemaIndumentaria.getPrendas();
-		codprendaSeleccionada = prendas.elementAt(0).getCodigoPrenda();
+		if(prendas.size() > 0){
+			codprendaSeleccionada = prendas.elementAt(0);
+		}
 		fillPrendas();
 		initGUI();
 		addComponents(components);
@@ -115,7 +117,7 @@ public class VentanaVentaPrenda extends JFrame{
 		Vector<String> nombres = new Vector<String>();
 		if(prendas.size()>0){
 			for (int i = 0; i < prendas.size(); i++) {
-				nombres.add(prendas.elementAt(i).getNombrePrenda());
+				nombres.add(sistemaIndumentaria.buscarTPrenda(prendas.elementAt(i)).get("nombre"));
 			}
 		}
 		return nombres;
@@ -140,7 +142,7 @@ public class VentanaVentaPrenda extends JFrame{
 			// Listeners
 			cmbPrendas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					codprendaSeleccionada = prendas.elementAt(cmbPrendas.getSelectedIndex()).getCodigoPrenda();
+					codprendaSeleccionada = prendas.elementAt(cmbPrendas.getSelectedIndex());
 				}
 			});
 			btnSeguir.addActionListener(new ActionListener() {
@@ -184,9 +186,9 @@ public class VentanaVentaPrenda extends JFrame{
 				}
 			});
 			setTitle("Venta de Prendas");
-			setSize(550, 550);
-			setMaximumSize(new Dimension(550, 550));
-			setMinimumSize(new Dimension(550, 550));
+			setSize(600, 600);
+			setMaximumSize(new Dimension(600, 600));
+			setMinimumSize(new Dimension(600, 600));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -213,14 +215,23 @@ public class VentanaVentaPrenda extends JFrame{
 	}
 	
 	private void showGenerarFactura(){
-		lblDatosCliente.setBounds(10, 50, 480, 40);
-		lblNumCliente.setBounds(140, 100, 200, 30);
-		txfNumCliente.setBounds(200, 100, 150, 30);
-		txfNumCliente.requestFocus();
-		lblNombreCliente.setBounds(140, 150, 200, 30);
-		txfNombreCliente.setBounds(200, 150, 150, 30);
-		btnSeguir.setBounds(250, 220, 90, 30);
-		btnCancelar.setBounds(140, 220, 90, 30);
+		if(prendas.size() > 0){
+			lblDatosCliente.setBounds(10, 50, 480, 40);
+			lblNumCliente.setBounds(140, 100, 200, 30);
+			txfNumCliente.setBounds(200, 100, 150, 30);
+			txfNumCliente.requestFocus();
+			lblNombreCliente.setBounds(140, 150, 200, 30);
+			txfNombreCliente.setBounds(200, 150, 150, 30);
+			btnSeguir.setBounds(250, 220, 90, 30);
+			btnCancelar.setBounds(140, 220, 90, 30);
+		} else {
+			lblError.setText("No hay prendas disponibles.");
+			lblError.setBounds(180, 100, 200, 30);
+			lblError.setForeground(new Color(255, 0, 0));
+			lblError.setVisible(true);
+			btnCancelar.setBounds(170, 220, 200, 30);
+			btnCancelar.setText("Salir");
+		}
 	}
 	
 	private void hideGenerarFactura(){
@@ -267,6 +278,9 @@ public class VentanaVentaPrenda extends JFrame{
 	
 	private void showFactura(){
 		lblSeleccionarItem.setText("Factura generada correctamente");
-		lblSeleccionarItem.setBounds(150, 30, 250, 20);
+		lblSeleccionarItem.setBounds(150, 10, 250, 20);
+		lblNombreCliente.setText("Cliente: "+txfNombreCliente.getText());
+		lblNombreCliente.setBounds(10, 30, 200, 20);
+		lblNombreCliente.setVisible(true);
 	}
 }

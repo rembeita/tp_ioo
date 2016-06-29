@@ -1,3 +1,5 @@
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 public class SistemaIndumentaria 
@@ -49,10 +51,8 @@ public class SistemaIndumentaria
 	public boolean AltaPrendaSinTemporada(int codigo, String nombrePrenda, int stock){
 		if(this.buscarPrenda(codigo) == null){
 			prendaActual = new PrendaSinTemporada(codigo, nombrePrenda, stock);
-//			System.out.println("PRENDA ACTUAL IN"+prendaActual);
 			return true;
 		}
-//		System.out.println("PRENDA ACTUAL"+prendaActual);
 		return false;
 	}
 	
@@ -60,10 +60,8 @@ public class SistemaIndumentaria
 	{
 		if(this.buscarPrenda(codigo) == null){
 			prendaActual = new prendaDeTemporada(codigo, nombrePrenda, stock, epoca);
-//			System.out.println("PRENDA ACTUAL IN"+prendaActual);
 			return true;
 		}
-//		System.out.println("PRENDA ACTUAL"+prendaActual);
 		return false;
 	}
 	
@@ -169,9 +167,23 @@ public class SistemaIndumentaria
 		return null;
 	}
 	
-	public Material buscarMaterial(int cod)
-	{
-//		System.out.println("Buscando Material!");
+	public Map<String, String> buscarTPrenda(int cod){
+		Map<String, String> prenda = new HashMap<String, String>();
+		if(prendas.size() > 0){
+			for (int j=0; j < prendas.size(); j++){
+				if (prendas.elementAt(j).sosPrenda(cod) == true){
+					Prenda encontrada = prendas.elementAt(j);
+					prenda.put("nombre", encontrada.getNombrePrenda());
+					prenda.put("codigo", String.valueOf(encontrada.getCodigoPrenda()));
+					prenda.put("stock", String.valueOf(encontrada.getStockPrenda()));
+					prenda.put("precio", encontrada.getNombrePrenda());
+				}
+			}
+		}
+		return prenda;
+	}
+	
+	public Material buscarMaterial(int cod){
 
 		for (int i=0; i<materiales.size();i++)
 		{
@@ -182,8 +194,14 @@ public class SistemaIndumentaria
 		return null;
 	}
 
-	public Vector<Prenda> getPrendas() {
-		return prendas;
+	public Vector<Integer> getPrendas() {
+		Vector<Integer> idsprendas = new Vector<Integer>();
+		if(prendas.size() > 0){
+			for (int i = 0; i < prendas.size(); i++) {
+				idsprendas.add(prendas.elementAt(i).getCodigoPrenda());
+			}
+		}
+		return idsprendas;
 	}
 	
 	//Nuevo CAGUIRRE
@@ -315,7 +333,6 @@ public class SistemaIndumentaria
 		
 		if(prendaActual != null){
 			Vector<ItemPrenda> itemsPrenda = prendaActual.getItemsprendas();
-			System.out.println("ACA"+itemsPrenda);
 			items = new int[prendaActual.getItemsprendas().size()][2];
 			if(itemsPrenda.size()>0){
 				for (int i = 0; i < itemsPrenda.size(); i++) {
