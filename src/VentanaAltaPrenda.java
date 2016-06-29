@@ -200,7 +200,7 @@ public class VentanaAltaPrenda extends JFrame {
 				btnSalir = new JButton();
 				getContentPane().add(btnSalir);
 				btnSalir.setText("Salir");
-				btnSalir.setBounds(260, 100, 80, 23);
+				btnSalir.setBounds(261, 100, 80, 23);
 				btnSalir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
