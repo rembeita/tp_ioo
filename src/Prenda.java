@@ -6,8 +6,7 @@ public class Prenda
 	protected String nombrePrenda;
 	protected int stockPrenda;
 	protected float precioPrenda;
-	protected Vector<ItemPrenda>itemsprendas;
-	
+	protected Vector<ItemPrenda>itemsprendas;	
 
 //	public Prenda(int codigoPrenda, String nombrePrenda, int stockPrenda, 
 //			Material material, int cantMaterial) {
@@ -84,10 +83,27 @@ public class Prenda
 		this.precioPrenda = total;
 	
 	}
+	
 	public void agregarItemPrenda(int cantMaterial, Material material)
-	{
-		ItemPrenda itemprenda = new ItemPrenda(cantMaterial, material);	
-		this.itemsprendas.add(itemprenda);
+	{	
+		//Chequeo si existe el itemPrenda y lo actualizo, de lo contrario lo creo y agrego.
+		if(itemsprendas.size()>0){
+			for(int i = 0; i<itemsprendas.size();i++){
+			
+				if(itemsprendas.elementAt(i).getMaterial().getCodigoMaterial() == material.getCodigoMaterial()){
+					
+					itemsprendas.elementAt(i).setCantidad(cantMaterial);					
+					break;
+				} else if(i+1 == itemsprendas.size()){
+					ItemPrenda itemPrenda = new ItemPrenda(cantMaterial, material);
+					this.itemsprendas.add(itemPrenda);
+				}
+			}
+		} else {
+			ItemPrenda itemPrenda = new ItemPrenda(cantMaterial, material);
+			this.itemsprendas.add(itemPrenda);
+		}
+					
 		this.calcularPrecio();
 	}
 	
@@ -96,12 +112,5 @@ public class Prenda
 		this.codigoPrenda = this.getCodigoPrenda()*-1;
 				
 	}
-
-	public void actualizarPrenda(String nombre, int stock, float precio) {
-			this.nombrePrenda = nombre;
-			this.stockPrenda = stock; 
-			this.precioPrenda = precio;
-	}
-	
-	
+		
 }

@@ -28,7 +28,6 @@ public class VentanaAltaPrenda extends JFrame {
 	private JTable tblTablaMateriales;
 	private JScrollPane tblContTablaMateriales;
 	
-	private JLabel lblTituloPantalla;
 	private JLabel lblCodigo;
 	private JLabel lblTemporada;		
 	private JLabel lblNombre;
@@ -46,17 +45,14 @@ public class VentanaAltaPrenda extends JFrame {
 	private JFormattedTextField txtCodigo;
 	private JFormattedTextField txtStock;
 	private JFormattedTextField txtCantMat;
-	
-	private boolean bPrendaDeTemporada;
+
 	
 	private SistemaIndumentaria sistemaIndumentaria;
-	private Vector<Material> materiales;
-	private Vector<ItemPrenda> itemPrendas;	
-	private int[][] materialesAgregados;
 	private int codMaterial;
-	private int codPrenda;                       
-	private boolean bError = false; 
-	private Material matSeleccionado;
+	private int[] idsMateriales;
+	private int[][] materialesAgregados;                    
+	private boolean bError; 
+
 
 	
 	public VentanaAltaPrenda(SistemaIndumentaria sistema){
@@ -64,11 +60,12 @@ public class VentanaAltaPrenda extends JFrame {
 		super();
 		
 		sistemaIndumentaria = sistema;
-		materiales = sistemaIndumentaria.getMateriales();
-		materialesAgregados = new int [materiales.size()][2];
-		initGUI();
-		cargaComboTemporadas();
+		idsMateriales = sistemaIndumentaria.getIdsMateriales();
+		materialesAgregados = new int [idsMateriales.length][2];
 		cargaComboMateriales();
+		cargaComboTemporadas();
+		initGUI();		
+	
 	}	
 	
 	private void initGUI(){				
@@ -90,7 +87,7 @@ public class VentanaAltaPrenda extends JFrame {
 			{ 
 				lblCodigo = new JLabel();
 				getContentPane().add(lblCodigo);
-				lblCodigo.setText("CÃ³digo: ");
+				lblCodigo.setText("Código: ");
 				lblCodigo.setBounds(10,30, 80, 20);
 			}						
 			{
@@ -165,13 +162,36 @@ public class VentanaAltaPrenda extends JFrame {
 				btnSeguir.setBounds(150, 100, 80, 23);
 				btnSeguir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
+						validaDatos();
 						// Add prenda actual
-						if(cmbTemporada.getSelectedItem() == "Sin Temporada"){
-							if(sistemaIndumentaria.AltaPrendaSinTemporada((int)txtCodigo.getValue(), 
+						if(!bError){
+							
+							if(cmbTemporada.getSelectedItem() == "Sin Temporada"){
+								if(sistemaIndumentaria.AltaPrendaSinTemporada((int)txtCodigo.getValue(), 
 									txtNombre.getText(), (int)txtStock.getValue())){
-								// Se pudo generar la prenda temporaria, mostrar carga de materiales
+									lblError.setText("");
+									// Se pudo generar la prenda temporaria, mostrar carga de materiales
+									muestraOcultaAgregaMaterial(true);
+								}else{
+									lblError.setText("Error: La prenda ya existe");
+								}
+							}else{
+								
+								if(sistemaIndumentaria.AltaPrendaDeTemporada((int)txtCodigo.getValue(), 
+										txtNombre.getText(), (int)txtStock.getValue(), (String) cmbTemporada.getSelectedItem())){
+										lblError.setText("");
+										// Se pudo generar la prenda temporaria, mostrar carga de materiales
+										muestraOcultaAgregaMaterial(true);
+									}else{
+										lblError.setText("Error: La prenda ya existe");
+									}	
+								
+								
 							}
-						}
+							materialesAgregados = sistemaIndumentaria.getItemsPrendas();
+							updateTable();
+						} //if(!bError)
 					}
 				});
 			}
@@ -185,46 +205,17 @@ public class VentanaAltaPrenda extends JFrame {
 					
 					@Override
 					public void actionPerformed(ActionEvent arg0) {						
-												
-						int codMaterial = materiales.elementAt(cmbMaterial.getSelectedIndex()).getCodigoMaterial();
-						int cantMaterial = (int)txtCantMat.getValue();
-						boolean bExiste = false;
 						
-						// Chequear este metodo, debe ser similar al agregar item factura
-						sistemaIndumentaria.generarItemPrenda(codMaterial, cantMaterial);
-						
-						/*
-						validaDatos();
-						
-						//Si tengo todos los datos cargados, busco si existe la prenda
-						//if(!bError){
-							
-							int i;							
-							codPrenda = (int)txtCodigo.getValue();						
-							
-							if(sistemaIndumentaria.buscarPrenda(codPrenda)== null){
-								
-								//Recorro el vector, si existe lo actualizo, sino lo agrego
-								for(i = 0; i< materialesAgregados.length; i++){
-									
-									if(materialesAgregados[i][1] == codMaterial){
-										materialesAgregados[i][2] = cantMaterial;
-										bExiste = true; 
-									}
-								} //for(i = 0; i< materialesAgregados.length; i++){	
-								
-								if (!bExiste){
-									materialesAgregados[i][1] = codMaterial;
-									materialesAgregados[i][2] = cantMaterial;
-								}
-								
-								updateTable();
-							}else{
-								
-								lblError.setText("Error: La prenda ya existe");
-							} //else if(sistemaIndumentaria.buscarPrenda(codPrenda)== null){
-						//} //if(!bError)
-						*/
+						if(txtCantMat.getValue() != null && (int)txtCantMat.getValue() > 0){
+							codMaterial = idsMateriales[cmbMaterial.getSelectedIndex()];
+							System.out.println(codMaterial);
+							int cantMaterial = (int)txtCantMat.getValue();
+							sistemaIndumentaria.generarItemPrenda(codMaterial, cantMaterial);
+							materialesAgregados = sistemaIndumentaria.getItemsPrendas();
+							updateTable();					
+						}else{
+							lblError.setText("Error: Debe ingresar una cantidad válida de material");
+						}
 					}
 				});				
 			}
@@ -256,6 +247,8 @@ public class VentanaAltaPrenda extends JFrame {
 				btnAceptar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						sistemaIndumentaria.finalizarAltaPrenda();
+						lblError.setText("Prenda generada exitosamente !!");
+						muestraOcultaAgregaMaterial(false);
 					}
 				});
 			}	
@@ -273,8 +266,9 @@ public class VentanaAltaPrenda extends JFrame {
 				});				
 			}
 			
+			muestraOcultaAgregaMaterial(false);
 			pack();
-			setSize(500, 500);			
+			setSize(500, 470);			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -288,7 +282,7 @@ public class VentanaAltaPrenda extends JFrame {
 		cmbTemporada.setBounds(260, 29, 120, 20);
 		cmbTemporada.addItem("Sin Temporada");
 		cmbTemporada.addItem("Verano");
-		cmbTemporada.addItem("OtoÃ±o");
+		cmbTemporada.addItem("Otoño");
 		cmbTemporada.addItem("Invierno");
 		cmbTemporada.addItem("Primavera");
 	} //private void cargaComboTemporadas()
@@ -299,93 +293,56 @@ public class VentanaAltaPrenda extends JFrame {
 		getContentPane().add(cmbMaterial);
 		cmbMaterial.setBounds(70, 143, 120, 20);
 		// TODO Show something if vector is empty
-		for(int i = 0; i< materiales.size();i++){
-			if(i == 0){
-				matSeleccionado = materiales.elementAt(0);
-			}
-			cmbMaterial.addItem(materiales.elementAt(i).getNombreMaterial());
+		for(int i = 0; i< idsMateriales.length;i++){
+
+			cmbMaterial.addItem(sistemaIndumentaria.getNombreItemPrenda(idsMateriales[i]));
 		}
 		//Evento que al seleccionar un material del combo, me guarda el codigo de este en una variable
 		cmbMaterial.addActionListener (new ActionListener () {
-		    public void actionPerformed(ActionEvent e) {
-		    	matSeleccionado = materiales.elementAt(cmbMaterial.getSelectedIndex());		
-		    	codMaterial = materiales.elementAt(cmbMaterial.getSelectedIndex()).getCodigoMaterial();
+		    public void actionPerformed(ActionEvent e) {		    				
+		    	codMaterial = idsMateriales[cmbMaterial.getSelectedIndex()];
 		    }
-		});;
+		});
 	}
-
-	private void generarPrendaTemporada() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void generarPrendaSinTemporada() {
-		
-//		if(cmbTemporada.getSelectedItem() == "Sin Temporada")
-//			
-//			generarPrendaSinTemporada();
-//		else
-//			
-//			generarPrendaTemporada();
-//		//if(cmbTemporada.getSelectedItem() == "Sin Temporada")
-//		
-//		sistemaIndumentaria.AltaPrendaSinTemporada(codPrenda, nombrePrenda, stock, codMaterial, cantMaterial);
-//		
-	}	
-	
-	/*private void generarItemPrenda(){
-		// TODO Check if matSeleccionado != null		
-		if(txtCantMat.getValue() != null || (int)txtCantMat.getValue() == 0){
-			int cantMaterial = (int)txtCantMat.getValue();
-				sistemaIndumentaria.generarItemPrenda(codPrenda, codMaterial, cantMaterial);
-//			if(cantidad <= sistemaIndumentaria.buscarMaterial(codMaterial).getCantStock()){
-//				lblError.setText("");
-////				sistemaIndumentaria.agregarPrenda(codfac, codPrenda, cantidad);Prenda(codfac, codprendaSeleccionada, cantidad);
-//				sistemaIndumentaria.
-//				itemsFactura = sistemaIndumentaria.buscarFactura(codfac).getItemfacturas();
-//				updateTable();
-//				lblPrecioTotal.setText("Total: "+sistemaIndumentaria.buscarFactura(codfac).getPrecioTotal());
-//			} else {
-//				lblError.setText("Error: Debe ingresar un valor en cantidad")
-//			}
-		}else{
-			
-			lblError.setText("Error: Debe ingresar una cantidad vï¿½lida de materiales");
-		} //if(txtCantMat.getValue() != null){
-		
-	}*/
 	
 	private void validaDatos() {
+		
+		bError = false;
+		lblError.setText("");
+		
 		// TODO Auto-generated method stub
-		if(txtCodigo.getValue() == null){
-			lblError.setText("Debe ingresar un cï¿½digo de Prenda vï¿½lido");
+		if(txtCodigo.getValue() == null || (int)txtCodigo.getValue() == 0){
+			System.out.println("Codigo");
+			lblError.setText("Debe ingresar un código de Prenda válido");
 			bError = true;
 		}else{
-			if (bError == true)
-				bError = false;					
-		}
 		
-		if(txtNombre.getText() == null){
-			lblError.setText("Debe ingresar un nombre de Prenda vï¿½lido");
+			System.out.println(txtCodigo.getValue());							
+		}
+		System.out.println(txtNombre.getText().length());
+		
+		if(txtNombre.getText().length() == 0 && !bError){
+			
+			System.out.println("Nombre");
+			lblError.setText("Debe ingresar un nombre de Prenda válido");
 			bError = true;
 		}else{			
-			if (bError == true)
-				bError = false;					
+				System.out.println("Else Nombre");					
 		}
 		
-		if(txtStock.getValue() == null){
-			lblError.setText("Debe ingresar un stock de Prenda vï¿½lido");
+		if(txtStock.getValue() == null && !bError || (int)txtStock.getValue() == 0 && !bError){
+			System.out.println("Stock");
+			lblError.setText("Debe ingresar un stock de Prenda válido");
 			bError = true;
-		}else{			
-			if (bError == true)
-				bError = false;					
+		}else{
+			System.out.println("Else Stock");							
 		}
 	}
 
 	private AbstractTableModel tblModel(){
 		AbstractTableModel model = new AbstractTableModel() {
 			private String[] columnNames = {"Material", "Cantidad"};
-			private Object[][] data = new Object[materiales.size()][2];
+			private Object[][] data = new Object[idsMateriales.length][2];
 			
 			public int getColumnCount() {
 		        return columnNames.length;
@@ -417,18 +374,16 @@ public class VentanaAltaPrenda extends JFrame {
 	}
 	
 	private void updateTable(){
-		
-		if(materialesAgregados.length > 0){
-			for (int i = 0; i < itemPrendas.size(); i++) {
-				int cantidad = itemPrendas.elementAt(i).getCantidad();
-				Material material = itemPrendas.elementAt(i).getMaterial();
-				tblTablaMateriales.getModel().setValueAt(material.getNombreMaterial(), i, 0);
-				tblTablaMateriales.getModel().setValueAt(cantidad, i, 1);
+		if(idsMateriales.length > 0){
+			for (int i = 0; i < materialesAgregados.length; i++) {
+				tblTablaMateriales.getModel().setValueAt(
+					sistemaIndumentaria.getNombreItemPrenda(materialesAgregados[i][0]), i, 0);
+				tblTablaMateriales.getModel().setValueAt(materialesAgregados[i][1], i, 1);
 			}
 		}
 	}
 	
-	//Formato para que el campo sea sï¿½lo numerico
+	//Formato para que el campo sea solo numerico
 	private NumberFormatter numberFormater(){
 		NumberFormat format = NumberFormat.getInstance();
 	    NumberFormatter formatter = new NumberFormatter(format);
@@ -438,4 +393,30 @@ public class VentanaAltaPrenda extends JFrame {
 	    formatter.setAllowsInvalid(false);
 	    return formatter;
 	}
-} //public class VentanaAltaPrenda extends JFrame
+	
+	private void muestraOcultaAgregaMaterial(boolean bMuestra){
+		
+		lblMaterial.setVisible(bMuestra);
+		cmbMaterial.setVisible(bMuestra);	
+		lblCantMat.setVisible(bMuestra);
+		txtCantMat.setVisible(bMuestra);
+		btnAgregar.setVisible(bMuestra);
+		tblContTablaMateriales.setVisible(bMuestra);
+		tblTablaMateriales.setVisible(bMuestra);
+		
+		txtCodigo.setValue(0);
+		txtNombre.setText("");
+		txtStock.setValue(0);
+		txtCantMat.setValue(0);
+		btnSeguir.setVisible(!bMuestra);
+		txtCodigo.setEnabled(!bMuestra);
+		txtNombre.setEnabled(!bMuestra);
+		cmbTemporada.setEnabled(!bMuestra);
+		txtStock.setEnabled(!bMuestra);
+		
+		btnAceptar.setVisible(bMuestra);
+		btnCancelar.setVisible(bMuestra);
+
+		
+	}
+}

@@ -7,5 +7,4 @@ public class PrendaSinTemporada extends Prenda
 
 	}
 	
-	
 }

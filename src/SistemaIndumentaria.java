@@ -302,5 +302,35 @@ public class SistemaIndumentaria
 		prendaActual = null;
 		System.out.println(prendas);
 	}
-	
+
+	public int[] getIdsMateriales() {
+		int[] idsMateriales = new int[materiales.size()];
+		for(int i=0; i<materiales.size(); i++){
+			idsMateriales[i] = materiales.elementAt(i).getCodigoMaterial();
+		}
+		return idsMateriales;
+	}
+
+	public int[][] getItemsPrendas() {
+		int[][] items = new int[0][2];
+		
+		if(prendaActual != null){
+			Vector<ItemPrenda> itemsPrenda = prendaActual.getItemsprendas();
+			System.out.println("ACA"+itemsPrenda);
+			items = new int[prendaActual.getItemsprendas().size()][2];
+			if(itemsPrenda.size()>0){
+				for (int i = 0; i < itemsPrenda.size(); i++) {
+					items[i][0] = itemsPrenda.elementAt(i).getMaterial().getCodigoMaterial();
+					items[i][1] = itemsPrenda.elementAt(i).getCantidad();
+				}
+			}
+		}
+		return items;
+	}
+
+	public String getNombreItemPrenda(Integer codigo) {
+		 
+		return this.buscarMaterial(codigo).getNombreMaterial();
+
+	}		
 }

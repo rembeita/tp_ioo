@@ -1,4 +1,3 @@
-
 public class prendaDeTemporada extends Prenda 
 {
 	private String estacion;
@@ -6,20 +5,21 @@ public class prendaDeTemporada extends Prenda
 		
 	public prendaDeTemporada(int codigoPrenda, String nombrePrenda, int stockPrenda, String epoca) {
 		super(codigoPrenda, nombrePrenda, stockPrenda);
-		this.estacion = estacion;
-		if (estacion == "verano")
+		this.estacion = epoca;
+		
+		if (estacion == "Verano")
 		{
 			this.porcentajeIncremento = 20;
 		}
-		else if (estacion == "invierno")
+		else if (estacion == "Invierno")
 		{
 			this.porcentajeIncremento = 15;
 		}
-		else if (estacion == "otono")
+		else if (estacion == "Otoño")
 		{
 			this.porcentajeIncremento = 10;
 		}
-		else if (estacion == "primavera")
+		else if (estacion == "Primavera")
 		{
 			this.porcentajeIncremento = 5;
 		}
