@@ -114,8 +114,8 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame
 					jMenuVenderPrendas.setText("Venta Prenda");
 					jMenuVenderPrendas.addMenuListener(new MenuListener() {
 							public void menuSelected(MenuEvent evt) {
-								VentanaAltaPrenda vtnAltaprenda = new VentanaAltaPrenda(sistemaIndumentaria);
-								vtnAltaprenda.setVisible(true);	
+								VentanaVentaPrenda ventana = new VentanaVentaPrenda(sistemaIndumentaria);								
+								ventana.setVisible(true);
 							}
 							public void menuDeselected(MenuEvent evt) {
 								
@@ -148,22 +148,22 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame
 					
 					{//Menu - Chequear Pto. Reposicion
 						
-						jMenuChequearPtoRep = new JMenu();
-						jBarradeMenues.add(jMenuChequearPtoRep);
-						jMenuChequearPtoRep.setText("Chequear Pto. Rep.");
-						jMenuChequearPtoRep.addMenuListener(new MenuListener() {
-							
-							public void menuSelected(MenuEvent arg0) {							
-								// CHequear Pto Rep
-								
-							}
-							public void menuDeselected(MenuEvent arg0) {
-								
-							}
-							public void menuCanceled(MenuEvent arg0) {
-								
-							}
-						});
+//						jMenuChequearPtoRep = new JMenu();
+//						jBarradeMenues.add(jMenuChequearPtoRep);
+//						jMenuChequearPtoRep.setText("Chequear Pto. Rep.");
+//						jMenuChequearPtoRep.addMenuListener(new MenuListener() {
+//							
+//							public void menuSelected(MenuEvent arg0) {							
+//								// CHequear Pto Rep
+//								
+//							}
+//							public void menuDeselected(MenuEvent arg0) {
+//								
+//							}
+//							public void menuCanceled(MenuEvent arg0) {
+//								
+//							}
+//						});
 					}//FIN Menu - Chequear Pto. Reposicion
 					
 					{//Menu - Salir

@@ -171,7 +171,7 @@ public class SistemaIndumentaria
 	
 	public Material buscarMaterial(int cod)
 	{
-		System.out.println("Buscando Material!");
+//		System.out.println("Buscando Material!");
 
 		for (int i=0; i<materiales.size();i++)
 		{
@@ -252,8 +252,7 @@ public class SistemaIndumentaria
 				aux.add(Float.toString(total));
 				aux.add(proveedor);
 				filas.add(aux);
-		
-				
+
 			}
 		return filas;
 	}

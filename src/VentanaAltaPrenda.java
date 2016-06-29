@@ -38,6 +38,7 @@ public class VentanaAltaPrenda extends JFrame {
 	
 	private JButton btnAceptar;
 	private JButton btnSeguir;
+	private JButton btnSalir;
 	private JButton btnCancelar;
 	private JButton btnAgregar;
 		
@@ -185,9 +186,7 @@ public class VentanaAltaPrenda extends JFrame {
 										muestraOcultaAgregaMaterial(true);
 									}else{
 										lblError.setText("Error: La prenda ya existe");
-									}	
-								
-								
+									}
 							}
 							materialesAgregados = sistemaIndumentaria.getItemsPrendas();
 							updateTable();
@@ -195,6 +194,19 @@ public class VentanaAltaPrenda extends JFrame {
 					}
 				});
 			}
+
+			{
+				btnSalir = new JButton();
+				getContentPane().add(btnSalir);
+				btnSalir.setText("Salir");
+				btnSalir.setBounds(260, 100, 80, 23);
+				btnSalir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
+			}			
+			
 			
 			{	//btnAgregar
 				btnAgregar  = new JButton();
@@ -208,7 +220,7 @@ public class VentanaAltaPrenda extends JFrame {
 						
 						if(txtCantMat.getValue() != null && (int)txtCantMat.getValue() > 0){
 							codMaterial = idsMateriales[cmbMaterial.getSelectedIndex()];
-							System.out.println(codMaterial);
+							
 							int cantMaterial = (int)txtCantMat.getValue();
 							sistemaIndumentaria.generarItemPrenda(codMaterial, cantMaterial);
 							materialesAgregados = sistemaIndumentaria.getItemsPrendas();
@@ -312,30 +324,21 @@ public class VentanaAltaPrenda extends JFrame {
 		
 		// TODO Auto-generated method stub
 		if(txtCodigo.getValue() == null || (int)txtCodigo.getValue() == 0){
-			System.out.println("Codigo");
+			
 			lblError.setText("Debe ingresar un código de Prenda válido");
 			bError = true;
-		}else{
-		
-			System.out.println(txtCodigo.getValue());							
-		}
-		System.out.println(txtNombre.getText().length());
+		}		
 		
 		if(txtNombre.getText().length() == 0 && !bError){
 			
-			System.out.println("Nombre");
 			lblError.setText("Debe ingresar un nombre de Prenda válido");
 			bError = true;
-		}else{			
-				System.out.println("Else Nombre");					
 		}
 		
 		if(txtStock.getValue() == null && !bError || (int)txtStock.getValue() == 0 && !bError){
-			System.out.println("Stock");
+			
 			lblError.setText("Debe ingresar un stock de Prenda válido");
 			bError = true;
-		}else{
-			System.out.println("Else Stock");							
 		}
 	}
 
@@ -409,6 +412,7 @@ public class VentanaAltaPrenda extends JFrame {
 		txtStock.setValue(0);
 		txtCantMat.setValue(0);
 		btnSeguir.setVisible(!bMuestra);
+		btnSalir.setVisible(!bMuestra);
 		txtCodigo.setEnabled(!bMuestra);
 		txtNombre.setEnabled(!bMuestra);
 		cmbTemporada.setEnabled(!bMuestra);

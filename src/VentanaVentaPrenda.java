@@ -135,9 +135,7 @@ public class VentanaVentaPrenda extends JFrame{
 		try {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);
-			
-			
-			
+
 			
 			// Listeners
 			cmbPrendas.addActionListener(new ActionListener() {
@@ -185,6 +183,11 @@ public class VentanaVentaPrenda extends JFrame{
 					dispose();
 				}
 			});
+			setTitle("Venta de Prendas");
+			setSize(550, 550);
+			setMaximumSize(new Dimension(550, 550));
+			setMinimumSize(new Dimension(550, 550));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
