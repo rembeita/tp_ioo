@@ -31,7 +31,7 @@ import javax.swing.text.NumberFormatter;
 public class VentanaVentaPrenda extends JFrame{
 
 	private JLabel lblDatosCliente = new JLabel("Datos de Cliente", SwingConstants.CENTER);
-	private JLabel lblNumCliente = new JLabel("N�mero:");
+	private JLabel lblNumCliente = new JLabel("Número:");
 	private JLabel lblNombreCliente = new JLabel("Nombre:");
 	private JLabel lblSeleccionarItem = new JLabel("Seleccionar Prenda:");
 	private JLabel lblError = new JLabel();

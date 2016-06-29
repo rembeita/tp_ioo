@@ -9,8 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-
-
 /**
 * This code was edited or generated using CloudGarden's Jigloo
 * SWT/Swing GUI Builder, which is free for non-commercial
@@ -35,6 +33,7 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 	private JButton buscar;
 	private JTextField codigoPrenda;
 	private JButton modificar;
+	private JButton btnSalir;
 	private JTextField stock;
 	private JTextField nombre_prenda;
 	private JTextField codigo;
@@ -60,6 +59,19 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);
 			//Visualizador de Errores
+			
+			{
+				btnSalir = new JButton();
+				getContentPane().add(btnSalir);
+				btnSalir.setText("Salir");
+				btnSalir.setBounds(30, 277, 80, 23);
+				btnSalir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
+			}			
+			
 			{
 				lblError = new JLabel();
 				getContentPane().add(lblError);
@@ -122,9 +134,12 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 				{
 					public void actionPerformed(ActionEvent evt) 
 					{
-						boolean respuesta = sistema.modificarPrenda(Integer.parseInt(codigoPrenda.getText()), (String)nombre_prenda.getText(),
-								Integer.parseInt(stock.getText()), (float)Integer.parseInt(precio_prenda.getText()));
-						if (respuesta == true){
+						boolean respuesta = sistema.modificarPrenda(Integer.parseInt(codigoPrenda.getText()), 
+								(String)nombre_prenda.getText(), Integer.parseInt(stock.getText()), 
+								Float.parseFloat(precio_prenda.getText()));
+						
+						if (respuesta == true)
+						{
 							getContentPane().add(mensaje);
 							mensaje.setText("La prenda se modifico correctamente");
 							mensaje.setBounds(119, 52, 210, 28);
@@ -132,7 +147,7 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 							jLabel1.setVisible(false);
 							jLabel2.setVisible(false);
 							jLabel3.setVisible(false);
-							jLabel4.setVisible(false);
+							jLabel4.setVisible(true);
 
 						}
 						limpiarpantalla();
@@ -224,7 +239,6 @@ public class VentanaModificacionPrenda extends javax.swing.JFrame {
 		precio_prenda.setVisible(false);
 
 		modificar.setVisible(false);
-		//jLabel4.setVisible(true);
 		codigoPrenda.setText("");
 		
 	}

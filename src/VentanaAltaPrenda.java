@@ -88,7 +88,7 @@ public class VentanaAltaPrenda extends JFrame {
 			{ 
 				lblCodigo = new JLabel();
 				getContentPane().add(lblCodigo);
-				lblCodigo.setText("Cï¿½digo: ");
+				lblCodigo.setText("Código: ");
 				lblCodigo.setBounds(10,30, 80, 20);
 			}						
 			{
@@ -145,7 +145,6 @@ public class VentanaAltaPrenda extends JFrame {
 				lblCantMat = new JLabel();
 				getContentPane().add(lblCantMat);
 				lblCantMat.setText("Cantidad:");
-//				lblCantMat.setForeground(Color.red);
 				lblCantMat.setBounds(10, 182, 80, 20);	
 			}
 
@@ -200,7 +199,7 @@ public class VentanaAltaPrenda extends JFrame {
 				btnSalir = new JButton();
 				getContentPane().add(btnSalir);
 				btnSalir.setText("Salir");
-				btnSalir.setBounds(260, 100, 80, 23);
+				btnSalir.setBounds(261, 100, 80, 23);
 				btnSalir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
@@ -227,7 +226,7 @@ public class VentanaAltaPrenda extends JFrame {
 							materialesAgregados = sistemaIndumentaria.getItemsPrendas();
 							updateTable();					
 						}else{
-							lblError.setText("Error: Debe ingresar una cantidad vï¿½lida de material");
+							lblError.setText("Error: Debe ingresar una cantidad válida de material");
 						}
 					}
 				});				
@@ -259,9 +258,17 @@ public class VentanaAltaPrenda extends JFrame {
 				btnAceptar.setBounds(70, 350, 100, 30);
 				btnAceptar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						sistemaIndumentaria.finalizarAltaPrenda();
-						lblError.setText("Prenda generada exitosamente !!");
-						muestraOcultaAgregaMaterial(false);
+						
+						if(materialesAgregados.length>0){
+							sistemaIndumentaria.finalizarAltaPrenda();
+							lblError.setText("Prenda generada exitosamente !!");
+							muestraOcultaAgregaMaterial(false);
+							
+						}else{
+							
+							lblError.setText("Error: Debe cargar al menos un material para realizar esta operacion");
+						}
+												
 					}
 				});
 			}	
@@ -294,7 +301,7 @@ public class VentanaAltaPrenda extends JFrame {
 		cmbTemporada.setBounds(260, 29, 120, 20);
 		cmbTemporada.addItem("Sin Temporada");
 		cmbTemporada.addItem("Verano");
-		cmbTemporada.addItem("Otoï¿½o");
+		cmbTemporada.addItem("Otoño");
 		cmbTemporada.addItem("Invierno");
 		cmbTemporada.addItem("Primavera");
 	} //private void cargaComboTemporadas()
@@ -321,19 +328,19 @@ public class VentanaAltaPrenda extends JFrame {
 		
 		if(txtCodigo.getValue() == null || (int)txtCodigo.getValue() == 0){
 			
-			lblError.setText("Debe ingresar un cï¿½digo de Prenda vï¿½lido");
+			lblError.setText("Debe ingresar un código de Prenda válido");
 			bError = true;
 		}		
 		
 		if(txtNombre.getText().length() == 0 && !bError){
 			
-			lblError.setText("Debe ingresar un nombre de Prenda vï¿½lido");
+			lblError.setText("Debe ingresar un nombre de Prenda válido");
 			bError = true;
 		}
 		
 		if(txtStock.getValue() == null && !bError || (int)txtStock.getValue() == 0 && !bError){
 			
-			lblError.setText("Debe ingresar un stock de Prenda vï¿½lido");
+			lblError.setText("Debe ingresar un stock de Prenda válido");
 			bError = true;
 		}
 	}
@@ -413,10 +420,15 @@ public class VentanaAltaPrenda extends JFrame {
 		tblContTablaMateriales.setVisible(bMuestra);
 		tblTablaMateriales.setVisible(bMuestra);
 		
-		txtCodigo.setValue(0);
-		txtNombre.setText("");
-		txtStock.setValue(0);
-		txtCantMat.setValue(0);
+		if(!bMuestra){
+			
+			txtCodigo.setValue(0);
+			txtNombre.setText("");
+			txtStock.setValue(0);
+			txtCantMat.setValue(0);				
+		} //if(!bMuestra)
+		
+
 		btnSeguir.setVisible(!bMuestra);
 		btnSalir.setVisible(!bMuestra);
 		txtCodigo.setEnabled(!bMuestra);

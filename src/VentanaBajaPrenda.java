@@ -40,6 +40,9 @@ public class VentanaBajaPrenda extends JFrame {
 		private JButton btnBuscarPrenda = new JButton("Buscar Prenda");
 		private JButton btnEliminar = new JButton("Eliminar");
 		private JButton btnCancelar = new JButton("Cancelar");
+		private JButton btnSalir;
+		
+		private Vector<Integer> prendas;
 		
 		private JFormattedTextField txfCodigoPrenda = new JFormattedTextField(numberFormater());
 		
@@ -51,6 +54,7 @@ public class VentanaBajaPrenda extends JFrame {
 	public VentanaBajaPrenda(SistemaIndumentaria sistema) {
 		super();
 		sistemaIndumentaria = sistema;
+		prendas = sistemaIndumentaria.getPrendas();
 //		inicializarComponentes();
 		addComponents(components);
 		showBuscarPrenda();
@@ -72,16 +76,32 @@ public class VentanaBajaPrenda extends JFrame {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);
 			
+			{
+				btnSalir = new JButton();
+				getContentPane().add(btnSalir);
+				btnSalir.setText("Salir");
+				btnSalir.setBounds(30, 337, 80, 23);
+				btnSalir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
+			}
 			// Listeners
 			btnBuscarPrenda.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(txfCodigoPrenda.getValue()!= null){
-						Prenda prenda = sistemaIndumentaria.buscarPrenda((int)txfCodigoPrenda.getValue());
+//						
+						lblPrendaEncontrada.setVisible(false);
+						lblNombrePrenda.setVisible(false);
+						btnEliminar.setVisible(false);
+						btnCancelar.setVisible(true);
 						
-						if (prenda != null){
+						if (sistemaIndumentaria.buscarPrenda((int)txfCodigoPrenda.getValue()) != null){
 							lblPrendaEncontrada.setVisible(true);
-							lblNombrePrenda.setText(prenda.getNombrePrenda());
+							lblNombrePrenda.setText(sistemaIndumentaria.buscarPrenda((int)txfCodigoPrenda.getValue()).getNombrePrenda());
 							lblNombrePrenda.setVisible(true);
+							lblError.setVisible(false);
 							showEliminarPrenda();
 						}else{
 							lblError.setText("ERROR: La prenda que desea eliminar no existe");
@@ -89,7 +109,9 @@ public class VentanaBajaPrenda extends JFrame {
 							lblError.setBounds(120, 230, 300, 30);
 							lblError.setForeground(new Color(255, 0, 0));
 							lblPrendaEncontrada.setVisible(false);
-						}
+							btnCancelar.setVisible(false);
+						}						
+		
 					}
 				}
 			});
@@ -133,6 +155,7 @@ public class VentanaBajaPrenda extends JFrame {
 	
 	
 	private void showBuscarPrenda(){
+		if(prendas.size() > 0){
 		lblDatosPrenda.setBounds(0, 50, 480, 40);
 		lblCodPrenda.setBounds(70, 100, 200, 30);
 		txfCodigoPrenda.setBounds(200, 100, 150, 30);
@@ -141,6 +164,16 @@ public class VentanaBajaPrenda extends JFrame {
 		lblCodPrenda.setVisible(true);
 		txfCodigoPrenda.setVisible(true);
 		btnBuscarPrenda.setVisible(true);
+		}
+		else
+		{
+			lblError.setText("No hay prendas disponibles.");
+			lblError.setBounds(180, 100, 200, 30);
+			lblError.setForeground(new Color(255, 0, 0));
+			lblError.setVisible(true);
+			//btnCancelar.setBounds(170, 220, 200, 30);
+			//btnCancelar.setText("Salir");
+		}
 	}
 	
 	private void showEliminarPrenda(){
@@ -152,5 +185,8 @@ public class VentanaBajaPrenda extends JFrame {
 		btnEliminar.setVisible(true);
 		btnCancelar.setVisible(true);
 	}
+
+	
+	
 	
 }

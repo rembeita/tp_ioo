@@ -106,4 +106,8 @@ public class Factura
 		this.setPrecioTotal(this.getPrecioTotal()+(cantidadComprada * prenda.getPrecioPrenda()));
 	}
 
+	public int getNumCliente() {
+		return numCliente;
+	}
+
 }

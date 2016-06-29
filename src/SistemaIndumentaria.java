@@ -10,6 +10,7 @@ public class SistemaIndumentaria
 	private Vector<Material>materialesAPedir;
 	private Vector<ordenDeCompra>ordenesDeCompra;
 	private Vector<Factura>facturas;
+	private Vector<itemOC>itemsOC;
 	private Prenda prendaActual;
 	
 	private void cargaInicial()
@@ -34,6 +35,11 @@ public class SistemaIndumentaria
 		materiales.add(material5);
 		materiales.add(material6);
 		materiales.add(material7);
+		
+		itemOC itemOC1 = new itemOC(material1, 3);
+		
+//		ordenDeCompra oc1 = new ordenDeCompra(100, "28/06/2016", 
+		
 	}
 	
 	public SistemaIndumentaria()
@@ -182,13 +188,7 @@ public class SistemaIndumentaria
 			}
 		}
 		return idsprendas;
-	}
-	
-	//Nuevo CAGUIRRE
-	public Vector<Material> getMateriales() {
-		return materiales;
 	}	
-	
 	
 	public void setPrendas(Vector<Prenda> prendas) {
 		this.prendas = prendas;
@@ -222,11 +222,16 @@ public class SistemaIndumentaria
 		if(facturas.size() > 0){
 			for (int i = 0; i < facturas.size(); i++) {
 				if(numFactura == facturas.elementAt(i).getNroFactura()){
-					return facturas.elementAt(i);
+					Factura fac = facturas.elementAt(i); 
+					datos.put("nroFactura", String.valueOf(fac.getNroFactura()));
+					datos.put("nombreLocal", fac.getNombreLocal());
+					datos.put("nombreCliente", fac.getNombreCliente());
+					datos.put("numCliente", String.valueOf(fac.getNumCliente()));
+					datos.put("total", String.valueOf(fac.getPrecioTotal()));
 				}
 			}
 		}
-		return null;
+		return datos;
 	}
 	
 	public int[][] getItemfacturas(int codigo){
@@ -237,7 +242,7 @@ public class SistemaIndumentaria
 		return items;
 	}
 	
-	public void eliminarFactura(Integer numFactura){
+	public void eliminarFactura(int numFactura){
 		Factura factura = this.getFactura(numFactura);
 		if(facturas.size()>0){
 			int nroFac = factura.getNroFactura();
@@ -250,12 +255,53 @@ public class SistemaIndumentaria
 		}
 	}
 	
+	private Factura getFactura(int numFactura){
+		if(facturas.size() > 0){
+			for (int i = 0; i < facturas.size(); i++) {
+				if(numFactura == facturas.elementAt(i).getNroFactura()){
+					return facturas.elementAt(i);
+				}
+			}
+		}
+		return null;
+	}	
+	
+	public Vector<Vector> getOrdenesDeCompra() 
+	{
+		 Vector<Vector> filas = new Vector<Vector>();
+		 Vector<String> titulo = new Vector<String>();
+		 String codigot = "Codigo:";
+		 String fechat = "Fecha:";
+		 String totalt = "Total:";
+		 String proveedort = "Proveedor:";
+		titulo.add(codigot);
+		titulo.add(fechat);
+		titulo.add(totalt);
+		titulo.add(proveedort);
+		filas.add(titulo);
+		 for (int i = 0; i < ordenesDeCompra.size(); i++) {
+				ordenDeCompra ordenDecompra = ordenesDeCompra.elementAt(i);
+				int codigo = ordenDecompra.getCodigoOC();
+				String fecha = ordenDecompra.getFechaOC();
+				float total = ordenDecompra.getTotalOC();
+				String proveedor = ordenDecompra.getNombreProveedor();
+				Vector<String> aux = new Vector<String>();
+				aux.add(Integer.toString(codigo));
+				aux.add(fecha);
+				aux.add(Float.toString(total));
+				aux.add(proveedor);
+				filas.add(aux);
+
+			}
+		return filas;
+	}
+	
 	public void agregarPrenda(int codfac, int codPrenda, int cantidad) {
 		Factura fac = this.getFactura(codfac);
 		Prenda prenda = buscarPrenda(codPrenda);
 		fac.incorporarItemFactura(cantidad, prenda);
 	}
-	
+
 	public void generarItemPrenda(int codigoMaterial, int cantMaterial){
 		Material material = buscarMaterial(codigoMaterial);
 		prendaActual.agregarItemPrenda(cantMaterial, material);
@@ -309,8 +355,15 @@ public class SistemaIndumentaria
 		return items;
 	}
 
-	public String getNombreItemPrenda(Integer codigo) {
+	public String getNombreItemPrenda(int codigo) {
 		return this.buscarMaterial(codigo).getNombreMaterial();
 	}
 
+	public int[][] getItemfacturas(int codigo){
+		int[][] items = new int[0][2];
+		if(getFactura(codigo) != null){
+			items = getFactura(codigo).getItemfacturas();
+		}
+		return items;
+	}		
 }
